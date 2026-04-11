@@ -1,6 +1,7 @@
 import json
 
 from utils.validators import *
+from utils.textprocessor import *
 
 class Farmer:
     def __init__(self):
@@ -37,6 +38,8 @@ class Farmer:
         while invalid:
             name = input("Informe seu nome: ")
 
+            name = textcapitalize(name)
+
             invalid = not is_valid_name(name)
 
             if invalid:
@@ -54,6 +57,8 @@ class Farmer:
 
         while invalid:
             town = input("Informe sua cidade: ")
+
+            town = textcapitalize(town)
 
             invalid = not is_valid_town(town)
 
@@ -73,6 +78,8 @@ class Farmer:
         while invalid:
             state = input("Informe seu estado: ")
 
+            state = textcapitalize(state)
+
             invalid = not is_valid_state(state)
 
             if invalid:
@@ -89,11 +96,14 @@ class Farmer:
         """
 
         try:
-            farmer_file = open("data/farmer.json", "w")
+            data = ""
+            with open("data/farmer.json", "r") as farmer_file:
+                data = json.load(farmer_file)
 
-            farmer_file.write("{" + f"\"phone_number\": \"{self.phone_number}\", \"name\": \"{self.name}\", \"town\": \"{self.town}\", \"state\": \"{self.state}\"" + "}")
+            data["accounts"].append({"phone_number": self.phone_number, "name": self.name, "town": self.town, "state": self.state})
 
-            farmer_file.close()
+            with open("data/farmer.json", "w") as farmer_file:
+                json.dump(data, farmer_file, indent=4)
 
             return 0
 
@@ -106,27 +116,28 @@ class Farmer:
         """
         It reads the farmer's data on the data/farmer.json file, using the given phone number as login.
 
-        It returns 0 in case of success and 1 in case of failure.
+        It returns 0 in case of success, 1 in case of user not found and 2 in case of failure of reading.
         """
 
         try:
             data = ""
-            with open("data/farmer.json", "r", encoding='utf-8') as file:
-                data = json.load(file)
+            with open("data/farmer.json", "r", encoding='utf-8') as farmer_file:
+                data = json.load(farmer_file)
 
-            if data["phone_number"] == phone_number:
-                self.phone_number = data["phone_number"]
-                self.name = data["name"]
-                self.town = data["town"]
-                self.state = data["state"]
+            for users in data["accounts"]:
+                if users["phone_number"] == phone_number:
+                    self.phone_number = users["phone_number"]
+                    self.name = users["name"]
+                    self.town = users["town"]
+                    self.state = users["state"]
 
-                return 0
-
-            else:
-                return 1
-
-
-        except:
-            print("Um erro inesperado aconteceu! Não foi possível ler os dados do agricultor...")
+                    return 0
 
             return 1
+
+
+        except Exception as e:
+            print("Um erro inesperado aconteceu! Não foi possível ler os dados do agricultor...")
+
+            print(repr(e))
+            return 2

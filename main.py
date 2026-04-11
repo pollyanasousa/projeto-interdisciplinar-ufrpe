@@ -20,16 +20,16 @@ Cleyton Vanut
 from model.farmer import *
 from utils.menu import *
 
-def login(farmer): # [PORTUGUESE] login(): login()
+def login(farmer): # [PORTUGUESE] login(farmer): login(agricultor)
 	"""
-	It signs in the farmer, receiving, and modifying, in case of success, the farmer object. This function returns 0 in the successful case and 1 in case of failure.
+	It signs in the farmer, receiving, and modifying, in case of success, the passed farmer object. This function returns 0 in the successful case, 1 in case of user not found and 2 in case of failure of reading.
 	"""
 
 	phone_number = input("Digite seu número de celular: ")
 
 	return farmer.read(phone_number)
 
-def create_account(farmer): # [PORTUGUESE] create_account(): criar_conta()
+def create_account(farmer): # [PORTUGUESE] create_account(farmer): criar_conta(agricultor)
 	"""
 	It signs up the farmer, receiving the farmer object, which will be modified.
 	"""
@@ -43,8 +43,9 @@ def create_account(farmer): # [PORTUGUESE] create_account(): criar_conta()
 	farmer.get_town()
 	farmer.get_state()
 
-	# And now his memory will be on the data/farmer.json file:
-	farmer.save()
+	# And now the farmer's memory will be on the data/farmer.json file:
+	if farmer.save() == 0:
+		print("Conta criada com sucesso!")
 
 def main():
 	print("------------------------------------------------------------------")
@@ -62,12 +63,17 @@ def main():
 	farmer = Farmer() # [Portuguese] farmer: agricultor
 
 	if option == 0: # Login
-		if login(farmer) == 1:
+		login_code = login(farmer)
+
+		if login_code == 0:
+			print(f"Seja bem-vindo, {farmer.name}!")
+
+		elif login_code == 1:
 			print("Usuário com número de telefone não encontrado... vamos criar uma conta!")
 			create_account(farmer)
 
 		else:
-			print(f"Seja bem-vindo, {farmer.name}!")
+			pass # A error message will pop up anyway, in virtue of the login() function
 
 	else: # Create an account
 		create_account(farmer)

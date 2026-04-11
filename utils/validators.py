@@ -4,6 +4,8 @@ This file contains validators used to guarantee the consistency of the input dat
 
 import re
 
+from utils.textprocessor import *
+
 def is_valid_phone(phone): # [PORTUGUESE] is_valid_phone(phone): e_celular_valido(celular)
 	"""
 	It evaluates if the given phone is valid or not and returns True for valid and False for invalid.
@@ -19,7 +21,7 @@ def is_valid_name(name): # [PORTUGUESE] is_valid_name(name): e_nome_valido(nome)
 	It evaluates if the given name is valid or not and returns True for valid and False for invalid.
 	"""
 
-	pattern = r"^[a-zA-Z]+$" # [PORTUGUESE] pattern: padrão
+	pattern = r"^[a-zA-ZÁ-ÿ ]+$" # [PORTUGUESE] pattern: padrão
 
 	return re.fullmatch(pattern, name)
 
@@ -28,7 +30,7 @@ def is_valid_town(town): # [PORTUGUESE] is_valid_town(town): e_cidade_valida(cid
 	It evaluates if the given town is valid or not and returns True for valid and False for invalid.
 	"""
 
-	pattern = r"^[a-zA-Z]+$" # [PORTUGUESE] pattern: padrão
+	pattern = r"^[a-zA-ZÁ-ÿ ]+$" # [PORTUGUESE] pattern: padrão
 
 	return re.fullmatch(pattern, town)
 
