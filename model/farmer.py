@@ -1,24 +1,50 @@
 import json
 
+from model.planting import *
+
 from utils.validators import *
 from utils.textprocessor import *
 
 class Farmer:
-    def __init__(self):
-        self.phone_number = "" # [PORTUGUESE] phone_number: numero_do_celular
-        self.name = "" # [PORTUGUESE] name: nome
-        self.town = "" # [PORTUGUESE] town: cidade
-        self.state = "" # [PORTUGUESE] state: estado
+    def __init__(self, farmerfile):
+        """
 
-    def get_phone(self): # [PORTUGUESE] get_phone: obter_celular
+        """
+
+        self.farmerfile = farmerfile
+
+        self.phone_number = ""
+        self.name = ""
+        self.town = ""
+        self.state = ""
+
+        self.planting = Planting(".../data/planting.json")
+
+        # Reading the farmer's data on farmerfile:
+
+        try:
+            data = ""
+            with open(farmerfile, "r", encoding='utf-8') as ff:
+                data = json.load(ff)
+
+            self.phone_number = data["phone_number"]
+            self.name = data["name"]
+            self.town = data["town"]
+            self.state = data["state"]
+
+        except Exception as e:
+            self.create_account()
+
+
+    def capture_phone(self):
         """
         It asks the user for the farmer's cell phone. When the user prompts a valid one, this function saves the input into the self phone_number variable. However, if the prompt was not valid, the function keeps asking for the farmer's cell phone.
         """
 
-        invalid = True # [PORTUGUESE] invalid: inválido
+        invalid = True
 
         while invalid:
-            phone_number = input("Informe o número de celular: ")
+            phone_number = input("Informe o seu número de celular: ")
 
             invalid = not is_valid_phone(phone_number)
 
@@ -28,12 +54,12 @@ class Farmer:
             else:
                 self.phone_number = phone_number
 
-    def get_name(self): # [PORTUGUESE] get_name: obter_nome
+    def capture_name(self):
         """
         It asks the user for the farmer's name. When the user prompts a valid one, this function saves the input into the self name variable. However, if the prompt was not valid, the function keeps asking for the farmer's name.
         """
 
-        invalid = True # [PORTUGUESE] invalid: inválido
+        invalid = True
 
         while invalid:
             name = input("Informe seu nome: ")
@@ -48,12 +74,12 @@ class Farmer:
             else:
                 self.name = name
 
-    def get_town(self): # [PORTUGUESE] get_town: obter_cidade
+    def capture_town(self):
         """
         It asks the user for the farmer's town. When the user prompts a valid one, this function saves the input into the self town variable. However, if the prompt was not valid, the function keeps asking for the farmer's town.
         """
 
-        invalid = True # [PORTUGUESE] invalid: inválido
+        invalid = True
 
         while invalid:
             town = input("Informe sua cidade: ")
@@ -68,12 +94,12 @@ class Farmer:
             else:
                 self.town = town
 
-    def get_state(self): # [PORTUGUESE] get_state: obter_estado
+    def capture_state(self):
         """
         It asks the user for the farmer's state. When the user prompts a valid one, this function saves the input into the self state variable. However, if the prompt was not valid, the function keeps asking for the farmer's state.
         """
 
-        invalid = True # [PORTUGUESE] invalid: inválido
+        invalid = True
 
         while invalid:
             state = input("Informe seu estado: ")
@@ -88,22 +114,16 @@ class Farmer:
             else:
                 self.state = state
 
-    def save(self): # [PORTUGUESE] save: salvar
+    def save(self):
         """
-        It saves the farmer's data on the data/farmer.json file.
+        It saves the farmer's data on the farmerfile.
 
         It returns 0 in case of success and 1 in case of failure.
         """
 
         try:
-            data = ""
-            with open("data/farmer.json", "r") as farmer_file:
-                data = json.load(farmer_file)
-
-            data["accounts"].append({"phone_number": self.phone_number, "name": self.name, "town": self.town, "state": self.state})
-
-            with open("data/farmer.json", "w") as farmer_file:
-                json.dump(data, farmer_file, indent=4)
+            with open(self.farmerfile, "w") as ff:
+                json.dump({"phone_number": self.phone_number, "name": self.name, "town": self.town, "state": self.state}, ff, indent=4)
 
             return 0
 
@@ -112,32 +132,23 @@ class Farmer:
 
             return 1
 
-    def read(self, phone_number): # [PORTUGUESE] read: ler
+    def create_account(self):
         """
-        It reads the farmer's data on the data/farmer.json file, using the given phone number as login.
-
-        It returns 0 in case of success, 1 in case of user not found and 2 in case of failure of reading.
+        It signs up the farmer.
         """
 
-        try:
-            data = ""
-            with open("data/farmer.json", "r", encoding='utf-8') as farmer_file:
-                data = json.load(farmer_file)
+        print("Bem-vindo! É um prazer tê-lo conosco!")
 
-            for users in data["accounts"]:
-                if users["phone_number"] == phone_number:
-                    self.phone_number = users["phone_number"]
-                    self.name = users["name"]
-                    self.town = users["town"]
-                    self.state = users["state"]
+        self.capture_phone()
 
-                    return 0
+        print("Como você se chama?")
+        self.capture_name()
 
-            return 1
+        self.capture_town()
+        self.capture_state()
 
+        self.planting.new_planting()
 
-        except Exception as e:
-            print("Um erro inesperado aconteceu! Não foi possível ler os dados do agricultor...")
-
-            print(repr(e))
-            return 2
+        # And now the farmer's data will be on the JSON file:
+        if self.save() == 0:
+            print("Conta criada com sucesso!")

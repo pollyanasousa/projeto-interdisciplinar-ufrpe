@@ -4,7 +4,7 @@ This file contains the textcapitalize function.
 
 import string
 
-def textcapitalize(text): # [PORTUGUESE] capitalize(text): capitalizar(texto)
+def textcapitalize(text):
     """
     It capitalizes all the words in a text, except prepositions.
     """

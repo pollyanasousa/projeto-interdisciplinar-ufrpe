@@ -2,7 +2,7 @@
 This file contains the menu function.
 """
 
-def show_menu(options): # [PORTUGUESE] show_menu(options): mostrar_menu(opcoes)
+def show_menu(options):
     """
     It shows the user a menu, using the options list elements as options, and returns the index of the chosen option (0 is the start point of the returns, although 1 is the start point of the menu screen).
     """

@@ -2,39 +2,41 @@
 This file contains validators used to guarantee the consistency of the input data on the program.
 """
 
+from datetime import datetime
+
 import re
 
 from utils.textprocessor import *
 
-def is_valid_phone(phone): # [PORTUGUESE] is_valid_phone(phone): e_celular_valido(celular)
+def is_valid_phone(phone):
 	"""
 	It evaluates if the given phone is valid or not and returns True for valid and False for invalid.
 	"""
 
-	pattern1 = r"^\(\d{2}\)\s*\d{5}-?\d{4}$" # [PORTUGUESE] pattern1: padrão1
-	pattern2 = r"^\d{7}-?\d{4}$" # [PORTUGUESE] pattern2: padrão2
+	pattern1 = r"^\(\d{2}\)\s*\d{5}-?\d{4}$"
+	pattern2 = r"^\d{7}-?\d{4}$"
 
 	return re.fullmatch(pattern1, phone) or re.fullmatch(pattern2, phone)
 
-def is_valid_name(name): # [PORTUGUESE] is_valid_name(name): e_nome_valido(nome)
+def is_valid_name(name):
 	"""
 	It evaluates if the given name is valid or not and returns True for valid and False for invalid.
 	"""
 
-	pattern = r"^[a-zA-ZÁ-ÿ ]+$" # [PORTUGUESE] pattern: padrão
+	pattern = r"^[a-zA-ZÁ-ÿ ]+$"
 
 	return re.fullmatch(pattern, name)
 
-def is_valid_town(town): # [PORTUGUESE] is_valid_town(town): e_cidade_valida(cidade)
+def is_valid_town(town):
 	"""
 	It evaluates if the given town is valid or not and returns True for valid and False for invalid.
 	"""
 
-	pattern = r"^[a-zA-ZÁ-ÿ ]+$" # [PORTUGUESE] pattern: padrão
+	pattern = r"^[a-zA-ZÁ-ÿ ]+$"
 
 	return re.fullmatch(pattern, town)
 
-def is_valid_state(state): # [PORTUGUESE] is_valid_state(state): e_estado_valido(estado)
+def is_valid_state(state):
 	"""
 	It evaluates if the given state is valid or not and returns True for valid and False for invalid.
 	"""
@@ -65,6 +67,15 @@ def is_valid_state(state): # [PORTUGUESE] is_valid_state(state): e_estado_valido
     "Santa Catarina",
     "São Paulo",
     "Sergipe",
-    "Tocantins"] # [PORTUGUESE] list_of_states: lista de estados
+    "Tocantins"]
 
 	return state in list_of_states
+
+def is_valid_date(date):
+	"""
+	It evaluates if the given date is valid or not and returns True for valid and False for invalid.
+	"""
+
+	pattern = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$"
+
+	return re.fullmatch(pattern, name) and datetime.strptime(pattern, "%d/%m/%Y")
