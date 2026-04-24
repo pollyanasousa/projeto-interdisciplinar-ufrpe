@@ -8,7 +8,9 @@ from utils.textprocessor import *
 class Farmer:
     def __init__(self, farmerfile):
         """
+        This class represents the farmer. It starts with empty fields and a path to a file that stores the fields corresponding to the farmer.
 
+        If you desire to copy the fields present on the file to the objects of this class, use self.read() method. However, if you desire to bring the current data on the objects of this class to that same file, use self.save() method.
         """
 
         self.farmerfile = farmerfile
@@ -18,22 +20,7 @@ class Farmer:
         self.town = ""
         self.state = ""
 
-        self.planting = Planting(".../data/planting.json")
-
-        # Reading the farmer's data on farmerfile:
-
-        try:
-            data = ""
-            with open(farmerfile, "r", encoding='utf-8') as ff:
-                data = json.load(ff)
-
-            self.phone_number = data["phone_number"]
-            self.name = data["name"]
-            self.town = data["town"]
-            self.state = data["state"]
-
-        except Exception as e:
-            self.create_account()
+        self.planting = Planting("data/planting.json")
 
 
     def capture_phone(self):
@@ -114,9 +101,39 @@ class Farmer:
             else:
                 self.state = state
 
-    def save(self):
+    def read(self, mute=False):
         """
-        It saves the farmer's data on the farmerfile.
+        It reads the farmer's data on the farmerfile, copying the data to the self variables.
+
+        If mute is True, then the possible error messages won't appear on the screen. If False, they will appear.
+
+        It returns 0 in case of success and 1 in case of failure.
+        """
+
+        try:
+            data = ""
+            with open(self.farmerfile, "r", encoding='utf-8') as ff:
+                data = json.load(ff)
+
+            self.phone_number = data["phone_number"]
+            self.name = data["name"]
+            self.town = data["town"]
+            self.state = data["state"]
+
+            return 0
+
+        except Exception as e:
+            if not mute:
+                print("Houve uma falha ao ler o arquivo do agricultor!")
+                print(e)
+
+            return 1
+
+    def save(self, mute=False):
+        """
+        It saves the farmer's data, present on self variables, on the farmerfile.
+
+        If mute is True, then the possible error messages won't appear on the screen. If False, they will appear.
 
         It returns 0 in case of success and 1 in case of failure.
         """
@@ -127,8 +144,10 @@ class Farmer:
 
             return 0
 
-        except:
-            print("Um erro inesperado aconteceu! Não foi possível salvar os dados do agricultor...")
+        except Exception as e:
+            if not mute:
+                print("Um erro inesperado aconteceu! Não foi possível salvar os dados do agricultor...")
+                print(e)
 
             return 1
 

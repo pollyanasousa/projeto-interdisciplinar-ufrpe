@@ -35,21 +35,29 @@ def main():
 	# We start with our farmer, the protagonist:
 	farmer = Farmer("data/farmer.json")
 
+	farmer.read(True)
+	""" We need this True because, on the first access, it would appear on the screen a message error of failure on reading the farmer file, because the JSON file is expected (part of the logic) to be empty.
+	"""
+
+	if farmer.phone_number == "": # We need to create an account
+		farmer.create_account()
+
 	print(f"Seja bem-vindo, {farmer.name}!")
-	option = show_menu(["Consultar plantio", "Consultar colheita", "Consultar despesas", "Gerar relatório de safra", "Sair"])
 
-	if option == 0:
-		pass
-	elif option == 1:
-		pass
-	elif option == 2:
-		pass
-	elif option == 3:
-		pass
-	elif option == 4:
-		sys.exit(0)
+	running = True
+	while running:
+		option = show_menu(["Consultar plantio", "Consultar colheita", "Consultar despesas", "Gerar relatório de safra", "Sair"])
 
-	main()
+		if option == 0:
+			pass
+		elif option == 1:
+			pass
+		elif option == 2:
+			pass
+		elif option == 3:
+			pass
+		elif option == 4:
+			sys.exit(0)
 
 if __name__ == "__main__":
 	main()

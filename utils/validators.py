@@ -18,12 +18,14 @@ def is_valid_phone(phone):
 
 	return re.fullmatch(pattern1, phone) or re.fullmatch(pattern2, phone)
 
-def is_valid_name(name):
+def is_valid_name(name, allow_numbers=False):
 	"""
 	It evaluates if the given name is valid or not and returns True for valid and False for invalid.
+
+    The allow_numbers, if True, considers numbers as valid letters, and the opposite if False.
 	"""
 
-	pattern = r"^[a-zA-ZÁ-ÿ ]+$"
+	pattern = r"^[a-zA-ZÁ-ÿ ]+$" if allow_numbers == False else r"^[0-9a-zA-ZÁ-ÿ ]+$"
 
 	return re.fullmatch(pattern, name)
 
@@ -78,4 +80,4 @@ def is_valid_date(date):
 
 	pattern = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$"
 
-	return re.fullmatch(pattern, name) and datetime.strptime(pattern, "%d/%m/%Y")
+	return re.fullmatch(pattern, date) and datetime.strptime(date, "%d/%m/%Y")
