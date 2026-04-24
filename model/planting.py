@@ -2,6 +2,8 @@ import json
 
 from utils.validators import *
 from utils.textprocessor import *
+from utils.menu import *
+from utils.io import *
 
 class Planting:
     def __init__(self, plantingfile):
@@ -95,13 +97,32 @@ class Planting:
     def show_planting(self):
         print("Lista de plantio:\n")
 
-        for planting in self.list_of_planting:
+        for _id, planting in enumerate(self.list_of_planting):
+            print("Número de identificação:", _id+1)
             print("Cultura:", planting["culture"])
             print("Área:", planting["area"])
             print("Quantidade:", planting["amount"])
             print("Data do plantio:", planting["date"])
 
             print("")
+
+        print("Deseja realizar alguma alteração na lista de plantio?")
+        option = show_menu(["Sim", "Não"])
+
+        if option == 0:
+            print("Qual alteração desejada?")
+            option = show_menu(["Adicionar novo plantio", "Alterar plantio existente", "Remover plantio existente", "Cancelar"])
+
+            if option == 0:
+                self.new_planting()
+            elif option == 1:
+                _id = inputint("Digite o número de identificação do plantio: ")
+                self.update_planting(_id-1) # The internal counting starts from id 0
+            elif option == 2:
+                _id = inputint("Digite o número de identificação do plantio: ")
+                self.delete_planting(_id-1) # The internal counting starts from 0
+            else:
+                pass
 
     def read(self, mute=False):
         """
@@ -168,3 +189,47 @@ class Planting:
         # And now the planting's data will be on the JSON file:
         if self.save() == 0:
             print("Plantio registrado com sucesso!")
+
+    def update_planting(self, _id):
+        """
+        It updates an existing planting whose id is given as argument.
+        """
+
+        if _id < 0 or _id >= len(self.list_of_planting):
+            print("Número de identificação inválido!")
+            return
+
+        print("Qual atributo você deseja alterar?")
+        option = show_menu(["Cultura", "Área", "Quantidade", "Data do plantio"])
+
+        if option == 0:
+            culture = self.capture_culture()
+            self.list_of_planting[_id]["culture"] = culture
+        elif option == 1:
+            area = self.capture_area()
+            self.list_of_planting[_id]["area"] = area
+        elif option == 2:
+            amount = self.capture_amount()
+            self.list_of_planting[_id]["amount"] = amount
+        elif option == 3:
+            date = self.capture_date()
+            self.list_of_planting[_id]["date"] = date
+
+        # And now the planting's data will be on the JSON file:
+        if self.save() == 0:
+            print("Plantio editado com sucesso!")
+
+    def delete_planting(self, _id):
+        """
+        It deletes an existing planting whose id is given as argument.
+        """
+
+        if _id < 0 or _id >= len(self.list_of_planting):
+            print("Número de identificação inválido!")
+            return
+
+        self.list_of_planting.pop(_id)
+
+        # And now the planting's data will be on the JSON file:
+        if self.save() == 0:
+            print("Plantio removido com sucesso!")

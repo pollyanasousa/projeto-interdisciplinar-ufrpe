@@ -51,13 +51,13 @@ def main():
 		if option == 0:
 			farmer.who_am_i()
 		if option == 1:
-			farmer.show_planting()
+			farmer.planting.show_planting()
 		elif option == 2:
 			pass
 		elif option == 3:
 			pass
 		elif option == 4:
-			farmer.gen_report()
+			farmer.report.gen_report()
 		elif option == 5:
 			sys.exit(0)
 

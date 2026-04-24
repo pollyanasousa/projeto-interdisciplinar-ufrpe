@@ -1,3 +1,8 @@
+import os
+import webbrowser
+
+from utils.menu import *
+
 class Report:
     def __init__(self, farmer, planting):
         """
@@ -59,10 +64,18 @@ class Report:
         """
 
         try:
-            with open("RelatorioDeSafra.html", "w", encoding="utf-8") as result_file:
+            REPORT_NAME = "RelatorioDeSafra.html"
+
+            with open(REPORT_NAME, "w", encoding="utf-8") as result_file:
                 result_file.write(report_html)
 
             print("Relatório gerado com sucesso!")
+            print("Deseja abri-lo no navegador?")
+
+            option = show_menu(["Sim", "Não"])
+            if option == 0:
+                report_path = os.path.realpath(REPORT_NAME)
+                webbrowser.open('file://' + report_path)
 
         except Except as e:
             print("Falha ao gerar o relatório de safra!")

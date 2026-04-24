@@ -96,7 +96,10 @@ class Farmer:
         while invalid:
             state = input("Informe seu estado: ")
 
-            state = textcapitalize(state)
+            if len(state) == 2: # Perhaps user gave us the acronym of the state (example: PE)
+                state = state.upper()
+            else: # Perhaps the full name of the state (example: Pernambuco)
+                state = textcapitalize(state)
 
             invalid = not is_valid_state(state)
 
@@ -108,6 +111,7 @@ class Farmer:
 
     def who_am_i(self):
         """
+        This function shows the farmer's data and asks if the user wants to change one of them.
         """
 
         print(f"Nome: {self.name}")
@@ -132,21 +136,9 @@ class Farmer:
             elif option == 3:
                 self.capture_state()
             else:
-                pass
+                return
 
             self.save()
-
-    def show_planting(self):
-        """
-        """
-
-        self.planting.show_planting()
-
-    def gen_report(self):
-        """
-        """
-
-        self.report.gen_report()
 
     def read(self, mute=False):
         """
