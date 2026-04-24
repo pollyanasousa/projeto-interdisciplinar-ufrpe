@@ -92,6 +92,17 @@ class Planting:
             else:
                 return date
 
+    def show_planting(self):
+        print("Lista de plantio:\n")
+
+        for planting in self.list_of_planting:
+            print("Cultura:", planting["culture"])
+            print("Área:", planting["area"])
+            print("Quantidade:", planting["amount"])
+            print("Data do plantio:", planting["date"])
+
+            print("")
+
     def read(self, mute=False):
         """
         It reads the planting's data on the plantingfile, copying the data to the self variables.
@@ -145,7 +156,7 @@ class Planting:
         It adds a new planting.
         """
 
-        print("Adicionando área de plantio...")
+        print("Adicionando plantio...")
 
         culture = self.capture_culture()
         area = self.capture_area()
@@ -156,4 +167,4 @@ class Planting:
 
         # And now the planting's data will be on the JSON file:
         if self.save() == 0:
-            print("Área de plantio criada com sucesso!")
+            print("Plantio registrado com sucesso!")

@@ -1,9 +1,11 @@
 import json
 
 from model.planting import *
+from model.report import *
 
 from utils.validators import *
 from utils.textprocessor import *
+from utils.menu import *
 
 class Farmer:
     def __init__(self, farmerfile):
@@ -21,6 +23,9 @@ class Farmer:
         self.state = ""
 
         self.planting = Planting("data/planting.json")
+        #self.harvest = Harvest("data/harvest.json")
+        #self.expenses = Expenses("data/expenses.json")
+        self.report = Report(self, self.planting)
 
 
     def capture_phone(self):
@@ -101,9 +106,51 @@ class Farmer:
             else:
                 self.state = state
 
+    def who_am_i(self):
+        """
+        """
+
+        print(f"Nome: {self.name}")
+        print(f"Telefone: {self.phone_number}")
+        print(f"Cidade: {self.town}")
+        print(f"Estado: {self.state}")
+
+        print("")
+        print("Deseja alterar algum dado?")
+        option = show_menu(["Sim", "Não"])
+
+        if option == 0:
+            print("Qual dado deseja alterar?")
+            option = show_menu(["Nome", "Telefone", "Cidade", "Estado", "Cancelar"])
+
+            if option == 0:
+                self.capture_name()
+            elif option == 1:
+                self.capture_phone()
+            elif option == 2:
+                self.capture_town()
+            elif option == 3:
+                self.capture_state()
+            else:
+                pass
+
+            self.save()
+
+    def show_planting(self):
+        """
+        """
+
+        self.planting.show_planting()
+
+    def gen_report(self):
+        """
+        """
+
+        self.report.gen_report()
+
     def read(self, mute=False):
         """
-        It reads the farmer's data on the farmerfile, copying the data to the self variables.
+        It reads the farmer's data on the farmerfile, copying the data to the self variables, and commands the self planting, harvest and expenses variables to be read.
 
         If mute is True, then the possible error messages won't appear on the screen. If False, they will appear.
 
@@ -119,6 +166,8 @@ class Farmer:
             self.name = data["name"]
             self.town = data["town"]
             self.state = data["state"]
+
+            self.planting.read()
 
             return 0
 
