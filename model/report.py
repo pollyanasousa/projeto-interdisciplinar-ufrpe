@@ -4,12 +4,13 @@ import webbrowser
 from utils.menu import *
 
 class Report:
-    def __init__(self, farmer, planting):
+    def __init__(self, farmer, area, planting):
         """
         This class defines the report.
         """
 
         self.farmer = farmer
+        self.area = area
         self.planting = planting
         self.harvest = ""
         self.expenses = ""
@@ -18,6 +19,15 @@ class Report:
         """
         It generates a report in PDF format.
         """
+
+        area_html = ""
+
+        for area in self.area.list_of_area:
+            area_html += f"""
+            <tr>
+                <td>{area["name"]}</td>
+            </tr>
+            """
 
         planting_html = ""
 
@@ -44,10 +54,22 @@ class Report:
             <hr />
             <h2>Dados do agricultor:</h2>
             <p><b>Nome:</b> {self.farmer.name}</p>
+            <p><b>CPF:</b> {self.farmer.cpf}</p>
             <p><b>Telefone:</b> {self.farmer.phone_number}</p>
             <p><b>Cidade:</b> {self.farmer.town}</p>
             <p><b>Estado:</b> {self.farmer.state}</p>
+
             <hr />
+
+            <h2>Lista de áreas:</h2>
+            <table border="1">
+                <tr>
+                    <th>Nome</th>
+                </tr>
+
+                {area_html}
+            </table>
+
             <h2>Lista de plantios:</h2>
             <table border="1">
                 <tr>

@@ -1,6 +1,9 @@
 import json
 
+from model.area import *
 from model.planting import *
+from model.harvest import *
+from model.expenses import *
 from model.report import *
 
 from utils.validators import *
@@ -19,13 +22,15 @@ class Farmer:
 
         self.phone_number = ""
         self.name = ""
+        self.cpf = ""
         self.town = ""
         self.state = ""
 
-        self.planting = Planting("data/planting.json")
-        #self.harvest = Harvest("data/harvest.json")
-        #self.expenses = Expenses("data/expenses.json")
-        self.report = Report(self, self.planting)
+        self.area = Area("data/area.json")
+        self.planting = Planting("data/planting.json", self.area)
+        self.harvest = Harvest("data/harvest.json")
+        self.expenses = Expenses("data/expenses.json")
+        self.report = Report(self, self.area, self.planting)
 
 
     def capture_phone(self):
@@ -65,6 +70,24 @@ class Farmer:
 
             else:
                 self.name = name
+
+    def capture_cpf(self):
+        """
+        It asks the user for the farmer's CPF. When the user prompts a valid one, this function saves the input into the self cpf variable. However, if the prompt was not valid, the function keeps asking for the farmer's CPF.
+        """
+
+        invalid = True
+
+        while invalid:
+            cpf = input("Informe seu CPF: ")
+
+            invalid = not is_valid_cpf(cpf)
+
+            if invalid:
+                print("CPF inválido!")
+
+            else:
+                self.cpf = cpf
 
     def capture_town(self):
         """
@@ -159,7 +182,10 @@ class Farmer:
             self.town = data["town"]
             self.state = data["state"]
 
+            self.area.read()
             self.planting.read()
+            self.harvest.read()
+            self.expenses.read()
 
             return 0
 
@@ -181,7 +207,7 @@ class Farmer:
 
         try:
             with open(self.farmerfile, "w") as ff:
-                json.dump({"phone_number": self.phone_number, "name": self.name, "town": self.town, "state": self.state}, ff, indent=4)
+                json.dump({"phone_number": self.phone_number, "name": self.name, "cpf": self.cpf, "town": self.town, "state": self.state}, ff, indent=4)
 
             return 0
 
@@ -204,10 +230,13 @@ class Farmer:
         print("Como você se chama?")
         self.capture_name()
 
+        self.capture_cpf()
         self.capture_town()
         self.capture_state()
 
-        self.planting.new_planting()
+        print("Excelente! Agora, precisamos criar uma área, é nela onde são feitos os plantios.")
+
+        self.area.new_area()
 
         # And now the farmer's data will be on the JSON file:
         if self.save() == 0:

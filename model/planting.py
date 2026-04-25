@@ -6,14 +6,15 @@ from utils.menu import *
 from utils.io import *
 
 class Planting:
-    def __init__(self, plantingfile):
+    def __init__(self, plantingfile, area):
         """
-        This class represents the planting. It starts with empty fields and a path to a file that stores the fields corresponding to the planting.
+        This class represents the planting. It starts with empty fields and a path to a file that stores the fields corresponding to the planting, besides an object of area.
 
         If you desire to copy the fields present on the file to the objects of this class, use self.read() method. However, if you desire to bring the current data on the objects of this class to that same file, use self.save() method.
         """
 
         self.plantingfile = plantingfile
+        self.area = area
 
         self.list_of_planting = []
 
@@ -26,7 +27,7 @@ class Planting:
         invalid = True
 
         while invalid:
-            culture = input("Informe o nome da cultura: ")
+            culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
 
             invalid = not is_valid_name(culture)
 
@@ -41,17 +42,25 @@ class Planting:
         It asks the user for the planting's area. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's area.
         """
 
+        print("Áreas disponíveis para o plantio:")
+
+        for area in self.area.list_of_area:
+            print(f"| {area['name']} |", end=" ")
+        print("")
+
         invalid = True
 
         while invalid:
             area = input("Informe a área da cultura: ")
 
-            area = textcapitalize(area)
-
             invalid = not is_valid_name(area, True)
 
             if invalid:
                 print("Área inválida!")
+
+            elif not area in [i["name"] for i in self.area.list_of_area]:
+                print("Área não existente! Por gentileza, informe uma das áreas disponíveis para plantio.")
+                invalid = True
 
             else:
                 return area
@@ -64,7 +73,7 @@ class Planting:
         invalid = True
 
         while invalid:
-            amount = input("Informe a quantidade da cultura: ")
+            amount = input("Informe a quantidade da cultura (exemplo: 3 sacos, 2 caixas): ")
 
             amount = textcapitalize(amount)
 
@@ -95,34 +104,44 @@ class Planting:
                 return date
 
     def show_planting(self):
-        print("Lista de plantio:\n")
+        if len(self.list_of_planting) == 0:
+            print("Não há plantios cadastrados.")
 
-        for _id, planting in enumerate(self.list_of_planting):
-            print("Número de identificação:", _id+1)
-            print("Cultura:", planting["culture"])
-            print("Área:", planting["area"])
-            print("Quantidade:", planting["amount"])
-            print("Data do plantio:", planting["date"])
-
-            print("")
-
-        print("Deseja realizar alguma alteração na lista de plantio?")
-        option = show_menu(["Sim", "Não"])
-
-        if option == 0:
-            print("Qual alteração desejada?")
-            option = show_menu(["Adicionar novo plantio", "Alterar plantio existente", "Remover plantio existente", "Cancelar"])
+            print("Deseja realizar o cadastro de um plantio?")
+            option = show_menu(["Sim", "Não"])
 
             if option == 0:
                 self.new_planting()
-            elif option == 1:
-                _id = inputint("Digite o número de identificação do plantio: ")
-                self.update_planting(_id-1) # The internal counting starts from id 0
-            elif option == 2:
-                _id = inputint("Digite o número de identificação do plantio: ")
-                self.delete_planting(_id-1) # The internal counting starts from 0
-            else:
-                pass
+
+        else:
+            print("Lista de plantio:\n")
+
+            for _id, planting in enumerate(self.list_of_planting):
+                print("Número de identificação:", _id+1)
+                print("Cultura:", planting["culture"])
+                print("Área:", planting["area"])
+                print("Quantidade:", planting["amount"])
+                print("Data do plantio:", planting["date"])
+
+                print("")
+
+            print("Deseja realizar alguma alteração na lista de plantio?")
+            option = show_menu(["Sim", "Não"])
+
+            if option == 0:
+                print("Qual alteração desejada?")
+                option = show_menu(["Adicionar novo plantio", "Alterar plantio existente", "Remover plantio existente", "Cancelar"])
+
+                if option == 0:
+                    self.new_planting()
+                elif option == 1:
+                    _id = inputint("Digite o número de identificação do plantio: ")
+                    self.update_planting(_id-1) # The internal counting starts from id 0
+                elif option == 2:
+                    _id = inputint("Digite o número de identificação do plantio: ")
+                    self.delete_planting(_id-1) # The internal counting starts from 0
+                else:
+                    pass
 
     def read(self, mute=False):
         """

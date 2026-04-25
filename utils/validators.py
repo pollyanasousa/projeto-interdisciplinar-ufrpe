@@ -29,6 +29,36 @@ def is_valid_name(name, allow_numbers=False):
 
 	return re.fullmatch(pattern, name)
 
+def is_valid_cpf(cpf):
+	"""
+	It evaluates if the given CPF is valid or not and returns True for valid and False for invalid.
+	"""
+
+	pattern = r"^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$"
+
+	if re.fullmatch(pattern, cpf):
+		# Testing the so called "dígitos verificadores":
+		cpf = re.sub(r'\D', '', cpf)
+
+		_sum = 0
+		for i, weight in enumerate(range(10, 1, -1)):
+			_sum += int(cpf[i]) * weight
+
+		remainder = (_sum * 10) % 11
+		first_digit = remainder if remainder < 10 else 0
+
+		_sum = 0
+		for i, weight in enumerate(range(11, 1, -1)):
+			_sum += int(cpf[i]) * weight
+
+		remainder = (_sum * 10) % 11
+		second_digit = remainder if remainder < 10 else 0
+
+		return first_digit == int(cpf[-2]) and second_digit == int(cpf[-1])
+
+	else:
+		return False
+
 def is_valid_town(town):
 	"""
 	It evaluates if the given town is valid or not and returns True for valid and False for invalid.

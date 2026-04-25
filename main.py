@@ -46,16 +46,25 @@ def main():
 
 	running = True
 	while running:
-		option = show_menu(["Meus dados pessoais", "Consultar plantio", "Consultar colheita", "Consultar despesas", "Gerar relatório de safra", "Sair"])
+		option = show_menu(["Meus dados pessoais", "Consultar áreas", "Consultar plantio", "Colheita e gastos", "Gerar relatório de safra", "Sair"])
 
 		if option == 0:
 			farmer.who_am_i()
-		if option == 1:
-			farmer.planting.show_planting()
+		elif option == 1:
+			farmer.area.show_area()
 		elif option == 2:
-			pass
+			farmer.planting.show_planting()
 		elif option == 3:
-			pass
+			option = show_menu(["Registrar colheita", "Registrar gastos", "Ver histórico"])
+
+			if option == 0:
+				farmer.harvest.registry_harvest()
+			elif option == 1:
+				farmer.expenses.registry_expenses()
+			elif option == 2:
+				farmer.harvest.show_harvest()
+				farmer.expenses.show_expenses()
+
 		elif option == 4:
 			farmer.report.gen_report()
 		elif option == 5:
