@@ -3,7 +3,7 @@ import json
 from model.area import *
 from model.planting import *
 from model.harvest import *
-from model.expenses import *
+from model.expense import *
 from model.report import *
 
 from utils.validators import *
@@ -29,8 +29,8 @@ class Farmer:
         self.area = Area("data/area.json")
         self.planting = Planting("data/planting.json", self.area)
         self.harvest = Harvest("data/harvest.json")
-        self.expenses = Expenses("data/expenses.json")
-        self.report = Report(self, self.area, self.planting)
+        self.expense = Expense("data/expense.json")
+        self.report = Report(self, self.area, self.planting, self.harvest, self.expense)
 
 
     def capture_phone(self):
@@ -138,6 +138,7 @@ class Farmer:
         """
 
         print(f"Nome: {self.name}")
+        print(f"CPF: {self.cpf}")
         print(f"Telefone: {self.phone_number}")
         print(f"Cidade: {self.town}")
         print(f"Estado: {self.state}")
@@ -179,13 +180,14 @@ class Farmer:
 
             self.phone_number = data["phone_number"]
             self.name = data["name"]
+            self.cpf = data["cpf"]
             self.town = data["town"]
             self.state = data["state"]
 
             self.area.read()
             self.planting.read()
             self.harvest.read()
-            self.expenses.read()
+            self.expense.read()
 
             return 0
 

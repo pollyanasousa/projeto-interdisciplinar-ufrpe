@@ -6,14 +6,14 @@ from utils.menu import *
 from utils.io import *
 
 class Expense:
-    def __init__(self, expensesfile):
+    def __init__(self, expensefile):
         """
         This class represents the expenses. It starts with an empty list of expenses and a path to a file that stores the fields corresponding to the expenses.
 
         If you desire to copy the fields present on the file to the objects of this class, use self.read() method. However, if you desire to bring the current data on the objects of this class to that same file, use self.save() method.
         """
 
-        self.expensesfile = expensesfile
+        self.expensefile = expensefile
 
         self.list_of_expenses = []
 
@@ -27,6 +27,7 @@ class Expense:
 
         while invalid:
             _type = input("Informe o tipo de gasto (exemplo: adubo, transporte, mão de obra): ")
+            _type = _type.capitalize()
 
             invalid = not is_valid_name(_type)
 
@@ -45,8 +46,7 @@ class Expense:
 
         while invalid:
             value = input("Informe o valor do gasto (exemplo: 100 reais): ")
-
-            value = textcapitalize(value)
+            value = value.capitalize()
 
             invalid = not is_valid_name(value, True)
 
@@ -75,54 +75,56 @@ class Expense:
                 return date
 
     def show_expenses(self):
-        if len(self.list_of_planting) == 0:
+        if len(self.list_of_expenses) == 0:
             print("Não há gastos cadastrados.")
-
-            print("Deseja realizar o cadastro de um gasto?")
-            option = show_menu(["Sim", "Não"])
-
-            if option == 0:
-                self.new_expenses()
 
         else:
             print("Lista de gastos:\n")
 
-            for _id, expenses in enumerate(self.list_of_expenses):
+            for _id, expense in enumerate(self.list_of_expenses):
                 print("Número de identificação:", _id+1)
-                print("Tipo de gasto:", expenses["type"])
-                print("Valor:", expenses["value"])
-                print("Data:", expenses["date"])
+                print("Tipo de gasto:", expense["type"])
+                print("Valor:", expense["value"])
+                print("Data:", expense["date"])
 
                 print("")
 
-    def registry_expenses(self):
+    def manage_expenses(self):
         """
-        It registries the expenses.
+        It manages the expenses.
         """
 
         self.show_expenses()
 
-        print("Deseja realizar alguma alteração na lista de gastos?")
-        option = show_menu(["Sim", "Não"])
-
-        if option == 0:
-            print("Qual alteração desejada?")
-            option = show_menu(["Adicionar novo gasto", "Alterar gasto existente", "Remover gasto existente", "Cancelar"])
+        if len(self.list_of_expenses) == 0:
+            print("Deseja realizar o cadastro de um gasto?")
+            option = show_menu(["Sim", "Não"])
 
             if option == 0:
-                self.new_expenses()
-            elif option == 1:
-                _id = inputint("Digite o número de identificação do gasto: ")
-                self.update_expenses(_id-1) # The internal counting starts from id 0
-            elif option == 2:
-                _id = inputint("Digite o número de identificação do gasto: ")
-                self.delete_expenses(_id-1) # The internal counting starts from 0
-            else:
-                pass
+                self.new_expense()
+
+        else:
+            print("Deseja realizar alguma alteração na lista de gastos?")
+            option = show_menu(["Sim", "Não"])
+
+            if option == 0:
+                print("Qual alteração desejada?")
+                option = show_menu(["Adicionar novo gasto", "Alterar gasto existente", "Remover gasto existente", "Cancelar"])
+
+                if option == 0:
+                    self.new_expenses()
+                elif option == 1:
+                    _id = inputint("Digite o número de identificação do gasto: ")
+                    self.update_expenses(_id-1) # The internal counting starts from id 0
+                elif option == 2:
+                    _id = inputint("Digite o número de identificação do gasto: ")
+                    self.delete_expenses(_id-1) # The internal counting starts from 0
+                else:
+                    pass
 
     def read(self, mute=False):
         """
-        It reads the expenses's data on the expensesfile, copying the data to the self variables.
+        It reads the expenses's data on the expensefile, copying the data to the self variables.
 
         If mute is True, then the possible error messages won't appear on the screen. If False, they will appear.
 
@@ -131,7 +133,7 @@ class Expense:
 
         try:
             data = ""
-            with open(self.expensesfile, "r", encoding='utf-8') as pf:
+            with open(self.expensefile, "r", encoding='utf-8') as pf:
                 data = json.load(pf)
 
             for expenses in data["list_of_expenses"]:
@@ -149,7 +151,7 @@ class Expense:
 
     def save(self, mute=False):
         """
-        It saves the expenses's data, present on self variables, on the expensesfile.
+        It saves the expenses's data, present on self variables, on the expensefile.
 
         If mute is True, then the possible error messages won't appear on the screen. If False, they will appear.
 
@@ -157,7 +159,7 @@ class Expense:
         """
 
         try:
-            with open(self.expensesfile, "w") as pf:
+            with open(self.expensefile, "w") as pf:
                 json.dump({"list_of_expenses": self.list_of_expenses}, pf, indent=4)
 
             return 0
@@ -168,7 +170,7 @@ class Expense:
 
             return 1
 
-    def new_expenses(self):
+    def new_expense(self):
         """
         It adds a new expense.
         """
@@ -185,7 +187,7 @@ class Expense:
         if self.save() == 0:
             print("Gasto registrado com sucesso!")
 
-    def update_expenses(self, _id):
+    def update_expense(self, _id):
         """
         It updates an existing expense whose id is given as argument.
         """
@@ -214,7 +216,7 @@ class Expense:
         if self.save() == 0:
             print("Gasto editado com sucesso!")
 
-    def delete_expenses(self, _id):
+    def delete_expense(self, _id):
         """
         It deletes an existing expense whose id is given as argument.
         """

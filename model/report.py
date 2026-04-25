@@ -4,7 +4,7 @@ import webbrowser
 from utils.menu import *
 
 class Report:
-    def __init__(self, farmer, area, planting):
+    def __init__(self, farmer, area, planting, harvest, expense):
         """
         This class defines the report.
         """
@@ -12,8 +12,8 @@ class Report:
         self.farmer = farmer
         self.area = area
         self.planting = planting
-        self.harvest = ""
-        self.expenses = ""
+        self.harvest = harvest
+        self.expense = expense
 
     def gen_report(self):
         """
@@ -21,7 +21,6 @@ class Report:
         """
 
         area_html = ""
-
         for area in self.area.list_of_area:
             area_html += f"""
             <tr>
@@ -30,7 +29,6 @@ class Report:
             """
 
         planting_html = ""
-
         for planting in self.planting.list_of_planting:
             planting_html += f"""
             <tr>
@@ -41,6 +39,26 @@ class Report:
             </tr>
             """
 
+        harvest_html = ""
+        for harvest in self.harvest.list_of_harvest:
+            harvest_html += f"""
+            <tr>
+                <td>{harvest["culture"]}</td>
+                <td>{harvest["amount"]}</td>
+                <td>{harvest["date"]}</td>
+            </tr>
+            """
+
+        expense_html = ""
+        for expense in self.expense.list_of_expenses:
+            expense_html += f"""
+            <tr>
+                <td>{expense["type"]}</td>
+                <td>{expense["value"]}</td>
+                <td>{expense["date"]}</td>
+            </tr>
+            """
+
 
         report_html = f"""
         <!DOCTYPE html>
@@ -48,9 +66,36 @@ class Report:
         <head>
             <meta charset="utf-8">
             <title>Relatório de safra</title>
+            <style>
+                * {{
+                    font-family: Arial, sans;
+                    text-align: center;
+                }}
+
+                div {{
+                    margin: 0 auto;
+                    background-color: #393;
+                    color: #FFF;
+                    -webkit-text-stroke-width: 1px;
+                    -webkit-text-stroke-color: #000;
+                    width: 90%;
+                    height: 100%;
+                }}
+
+                table {{
+                    margin: 0 auto;
+                    margin-bottom: 20px;
+                }}
+
+                hr {{
+                    width: 80%;
+                }}
+            </style>
         </head>
         <body>
-            <h1>Relatório de safra</h1>
+            <div>
+                <h1>Relatório de safra</h1>
+            </div>
             <hr />
             <h2>Dados do agricultor:</h2>
             <p><b>Nome:</b> {self.farmer.name}</p>
@@ -70,6 +115,8 @@ class Report:
                 {area_html}
             </table>
 
+            <hr />
+
             <h2>Lista de plantios:</h2>
             <table border="1">
                 <tr>
@@ -80,6 +127,31 @@ class Report:
                 </tr>
 
                 {planting_html}
+            </table>
+
+            <hr />
+
+            <h2>Colheita e gastos:</h2>
+            <h3>Lista de colheita:</h3>
+            <table border="1">
+                <tr>
+                    <th>Cultura</th>
+                    <th>Quantidade</th>
+                    <th>Data da colheita</th>
+                </tr>
+
+                {harvest_html}
+            </table>
+
+            <h3>Lista de gastos:</h3>
+            <table border="1">
+                <tr>
+                    <th>Tipo de gasto</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                </tr>
+
+                {expense_html}
             </table>
         </body>
         </html>

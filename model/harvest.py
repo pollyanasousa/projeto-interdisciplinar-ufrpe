@@ -26,7 +26,8 @@ class Harvest:
         invalid = True
 
         while invalid:
-            culture = input("Informe o nome da cultura: ")
+            culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
+            culture = culture.capitalize()
 
             invalid = not is_valid_name(culture)
 
@@ -45,8 +46,7 @@ class Harvest:
 
         while invalid:
             amount = input("Informe a quantidade da colheita (exemplo: 10 sacos, 5 caixas): ")
-
-            amount = textcapitalize(amount)
+            amount = amount.capitalize()
 
             invalid = not is_valid_name(amount, True)
 
@@ -75,40 +75,51 @@ class Harvest:
                 return date
 
     def show_harvest(self):
-        print("Lista de colheita:\n")
+        if len(self.list_of_harvest) == 0:
+            print("Não há colheitas cadastradas.")
 
-        for _id, harvest in enumerate(self.list_of_harvest):
-            print("Número de identificação:", _id+1)
-            print("Cultura:", harvest["culture"])
-            print("Quantidade:", harvest["amount"])
-            print("Data da colheita:", harvest["date"])
+        else:
+            print("Lista de colheita:\n")
 
-            print("")
+            for _id, harvest in enumerate(self.list_of_harvest):
+                print("Número de identificação:", _id+1)
+                print("Cultura:", harvest["culture"])
+                print("Quantidade:", harvest["amount"])
+                print("Data da colheita:", harvest["date"])
 
-    def registry_harvest(self):
+                print("")
+
+    def manage_harvest(self):
         """
-        It registries the harvest.
+        It manages the harvest.
         """
 
         self.show_harvest()
 
-        print("Deseja realizar alguma alteração na lista de colheita?")
-        option = show_menu(["Sim", "Não"])
-
-        if option == 0:
-            print("Qual alteração desejada?")
-            option = show_menu(["Adicionar nova colheita", "Alterar colheita existente", "Remover colheita existente", "Cancelar"])
+        if len(self.list_of_harvest) == 0:
+            print("Deseja realizar o cadastro de uma colheita?")
+            option = show_menu(["Sim", "Não"])
 
             if option == 0:
                 self.new_harvest()
-            elif option == 1:
-                _id = inputint("Digite o número de identificação da colheita: ")
-                self.update_harvest(_id-1) # The internal counting starts from id 0
-            elif option == 2:
-                _id = inputint("Digite o número de identificação da colheita: ")
-                self.delete_harvest(_id-1) # The internal counting starts from 0
-            else:
-                pass
+        else:
+            print("Deseja realizar alguma alteração na lista de colheita?")
+            option = show_menu(["Sim", "Não"])
+
+            if option == 0:
+                print("Qual alteração desejada?")
+                option = show_menu(["Adicionar nova colheita", "Alterar colheita existente", "Remover colheita existente", "Cancelar"])
+
+                if option == 0:
+                    self.new_harvest()
+                elif option == 1:
+                    _id = inputint("Digite o número de identificação da colheita: ")
+                    self.update_harvest(_id-1) # The internal counting starts from id 0
+                elif option == 2:
+                    _id = inputint("Digite o número de identificação da colheita: ")
+                    self.delete_harvest(_id-1) # The internal counting starts from 0
+                else:
+                    pass
 
     def read(self, mute=False):
         """

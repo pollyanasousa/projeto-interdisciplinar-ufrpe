@@ -27,6 +27,7 @@ class Area:
 
         while invalid:
             name = input("Informe o nome da área (exemplo: roçado do fundo, terra perto do rio): ")
+            name = name.capitalize()
 
             invalid = not is_valid_name(name)
 

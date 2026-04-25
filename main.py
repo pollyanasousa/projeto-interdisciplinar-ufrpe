@@ -55,15 +55,15 @@ def main():
 		elif option == 2:
 			farmer.planting.show_planting()
 		elif option == 3:
-			option = show_menu(["Registrar colheita", "Registrar gastos", "Ver histórico"])
+			option = show_menu(["Gerenciar colheita", "Gerenciar gastos", "Ver histórico"])
 
 			if option == 0:
-				farmer.harvest.registry_harvest()
+				farmer.harvest.manage_harvest()
 			elif option == 1:
-				farmer.expenses.registry_expenses()
+				farmer.expense.manage_expenses()
 			elif option == 2:
 				farmer.harvest.show_harvest()
-				farmer.expenses.show_expenses()
+				farmer.expense.show_expenses()
 
 		elif option == 4:
 			farmer.report.gen_report()
