@@ -19,15 +19,22 @@ class Planting:
         self.list_of_planting = []
 
 
-    def capture_culture(self):
+    def capture_culture(self, write_new=False):
         """
-        It asks the user for the planting's culture. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's culture.
+        It asks the user for the planting's culture. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's culture. The argument write_new makes the input message display it is a new culture when True.
         """
 
         invalid = True
 
         while invalid:
-            culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
+            culture = ""
+
+            if write_new:
+                culture = input("Informe o novo nome da cultura (exemplo: milho, feijão, mandioca): ")
+            else:
+                culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
+
+            culture = culture.capitalize()
 
             invalid = not is_valid_name(culture)
 
@@ -37,9 +44,9 @@ class Planting:
             else:
                 return culture
 
-    def capture_area(self):
+    def capture_area(self, write_new=False):
         """
-        It asks the user for the planting's area. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's area.
+        It asks the user for the planting's area. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's area. The argument write_new makes the input message display it is a new area when True.
         """
 
         print("Áreas disponíveis para o plantio:")
@@ -51,7 +58,12 @@ class Planting:
         invalid = True
 
         while invalid:
-            area = input("Informe a área da cultura: ")
+            area = ""
+
+            if write_new:
+                area = input("Informe a nova área da cultura: ")
+            else:
+                area = input("Informe a área da cultura: ")
 
             invalid = not is_valid_name(area, True)
 
@@ -65,17 +77,22 @@ class Planting:
             else:
                 return area
 
-    def capture_amount(self):
+    def capture_amount(self, write_new=False):
         """
-        It asks the user for the planting's amount. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's amount.
+        It asks the user for the planting's amount. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's amount. The argument write_new makes the input message display it is a new amount when True.
         """
 
         invalid = True
 
         while invalid:
-            amount = input("Informe a quantidade da cultura (exemplo: 3 sacos, 2 caixas): ")
+            amount = ""
 
-            amount = textcapitalize(amount)
+            if write_new:
+                amount = input("Informe a nova quantidade da cultura (exemplo: 3 sacos, 2 caixas): ")
+            else:
+                amount = input("Informe a quantidade da cultura (exemplo: 3 sacos, 2 caixas): ")
+
+            amount = amount.capitalize()
 
             invalid = not is_valid_name(amount, True)
 
@@ -85,15 +102,20 @@ class Planting:
             else:
                 return amount
 
-    def capture_date(self):
+    def capture_date(self, write_new=False):
         """
-        It asks the user for the planting's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's date.
+        It asks the user for the planting's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's date. The argument write_new makes the input message display it is a new date when True.
         """
 
         invalid = True
 
         while invalid:
-            date = input("Informe a data do plantio: ")
+            date = ""
+
+            if write_new:
+                date = input("Informe a nova data do plantio: ")
+            else:
+                date = input("Informe a data do plantio: ")
 
             invalid = not is_valid_date(date)
 
@@ -222,16 +244,16 @@ class Planting:
         option = show_menu(["Cultura", "Área", "Quantidade", "Data do plantio"])
 
         if option == 0:
-            culture = self.capture_culture()
+            culture = self.capture_culture(True)
             self.list_of_planting[_id]["culture"] = culture
         elif option == 1:
-            area = self.capture_area()
+            area = self.capture_area(True)
             self.list_of_planting[_id]["area"] = area
         elif option == 2:
-            amount = self.capture_amount()
+            amount = self.capture_amount(True)
             self.list_of_planting[_id]["amount"] = amount
         elif option == 3:
-            date = self.capture_date()
+            date = self.capture_date(True)
             self.list_of_planting[_id]["date"] = date
 
         # And now the planting's data will be on the JSON file:

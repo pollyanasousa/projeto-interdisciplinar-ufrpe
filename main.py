@@ -68,6 +68,7 @@ def main():
 		elif option == 4:
 			farmer.report.gen_report()
 		elif option == 5:
+			print("Até a próxima!")
 			sys.exit(0)
 
 if __name__ == "__main__":

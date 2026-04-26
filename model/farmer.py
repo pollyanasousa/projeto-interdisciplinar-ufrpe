@@ -28,6 +28,7 @@ class Farmer:
 
         self.area = Area("data/area.json")
         self.planting = Planting("data/planting.json", self.area)
+        self.area.link_to_planting(self.planting)
         self.harvest = Harvest("data/harvest.json")
         self.expense = Expense("data/expense.json")
         self.report = Report(self, self.area, self.planting, self.harvest, self.expense)

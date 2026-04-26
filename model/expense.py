@@ -18,15 +18,21 @@ class Expense:
         self.list_of_expenses = []
 
 
-    def capture_type(self):
+    def capture_type(self, write_new=False):
         """
-        It asks the user for the expenses's type. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the expenses's type.
+        It asks the user for the expenses's type. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the expenses's type. The argument write_new makes the input message display it is a new type when True.
         """
 
         invalid = True
 
         while invalid:
-            _type = input("Informe o tipo de gasto (exemplo: adubo, transporte, mão de obra): ")
+            _type = ""
+
+            if write_new:
+                _type = input("Informe o novo tipo de gasto (exemplo: adubo, transporte, mão de obra): ")
+            else:
+                _type = input("Informe o tipo de gasto (exemplo: adubo, transporte, mão de obra): ")
+
             _type = _type.capitalize()
 
             invalid = not is_valid_name(_type)
@@ -37,15 +43,21 @@ class Expense:
             else:
                 return _type
 
-    def capture_value(self):
+    def capture_value(self, write_new=False):
         """
-        It asks the user for the expenses's value. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the expenses's value.
+        It asks the user for the expenses's value. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the expenses's value. The argument write_new makes the input message display it is a new value when True.
         """
 
         invalid = True
 
         while invalid:
-            value = input("Informe o valor do gasto (exemplo: 100 reais): ")
+            value = ""
+
+            if write_new:
+                value = input("Informe o novo valor do gasto (exemplo: 100 reais): ")
+            else:
+                value = input("Informe o valor do gasto (exemplo: 100 reais): ")
+
             value = value.capitalize()
 
             invalid = not is_valid_name(value, True)
@@ -56,15 +68,20 @@ class Expense:
             else:
                 return value
 
-    def capture_date(self):
+    def capture_date(self, write_new=False):
         """
-        It asks the user for the expenses's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the expenses's date.
+        It asks the user for the expenses's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the expenses's date. The argument write_new makes the input message display it is a new area when True.
         """
 
         invalid = True
 
         while invalid:
-            date = input("Informe a data do gasto: ")
+            date = ""
+
+            if write_new:
+                date = input("Informe a nova data do gasto: ")
+            else:
+                date = input("Informe a data do gasto: ")
 
             invalid = not is_valid_date(date)
 
@@ -200,16 +217,16 @@ class Expense:
         option = show_menu(["Tipo de gasto", "Valor", "Data"])
 
         if option == 0:
-            _type = self.capture_type()
+            _type = self.capture_type(True)
             self.list_of_expenses[_id]["type"] = _type
         elif option == 1:
-            value = self.capture_value()
+            value = self.capture_value(True)
             self.list_of_expenses[_id]["value"] = value
         elif option == 2:
-            amount = self.capture_amount()
+            amount = self.capture_amount(True)
             self.list_of_expenses[_id]["amount"] = amount
         elif option == 3:
-            date = self.capture_date()
+            date = self.capture_date(True)
             self.list_of_expenses[_id]["date"] = date
 
         # And now the expenses's data will be on the JSON file:

@@ -8,25 +8,32 @@ from utils.io import *
 class Area:
     def __init__(self, areafile):
         """
-        This class represents the area. It starts with an empty list of areas and a path to a file that stores the fields corresponding to the area.
+        This class represents the area. It starts with an empty list of areas and a path to a file that stores the fields corresponding to the area. Also, with the self planting, it's possible to recognize the areas used by the plantings.
 
         If you desire to copy the fields present on the file to the objects of this class, use self.read() method. However, if you desire to bring the current data on the objects of this class to that same file, use self.save() method.
         """
 
         self.areafile = areafile
+        self.planting = None
 
         self.list_of_area = []
 
 
-    def capture_name(self):
+    def capture_name(self, write_new=False):
         """
-        It asks the user for the area's name. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the area's name.
+        It asks the user for the area's name. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the area's name. The argument write_new makes the input message display it is a new name when True.
         """
 
         invalid = True
 
         while invalid:
-            name = input("Informe o nome da área (exemplo: roçado do fundo, terra perto do rio): ")
+            name = ""
+
+            if write_new:
+                name = input("Informe o novo nome da área (exemplo: roçado do fundo, terra perto do rio): ")
+            else:
+                name = input("Informe o nome da área (exemplo: roçado do fundo, terra perto do rio): ")
+
             name = name.capitalize()
 
             invalid = not is_valid_name(name)
@@ -67,6 +74,13 @@ class Area:
                 self.delete_area(_id-1) # The internal counting starts from 0
             else:
                 pass
+
+    def link_to_planting(self, planting):
+        """
+        It makes the area class, linked to a planting object, recognize the areas being used by the plantings.
+        """
+
+        self.planting = planting
 
     def read(self, mute=False):
         """
@@ -133,15 +147,21 @@ class Area:
 
     def update_area(self, _id):
         """
-        It updates an existing area whose id is given as argument.
+        It updates an existing area whose id is given as argument. Besides, through the given list_of_planting, this function returns the ids of list_of_planting that need to be updated to receive the new area modification.
         """
 
         if _id < 0 or _id >= len(self.list_of_area):
             print("Número de identificação inválido!")
             return
 
-        name = self.capture_name()
-        self.list_of_area[_id]["name"] = name
+        old_name = self.list_of_area[_id]["name"]
+
+        new_name = self.capture_name(True)
+        self.list_of_area[_id]["name"] = new_name
+
+        for planting in self.planting.list_of_planting:
+            if planting["area"] == old_name:
+                planting["area"] = new_name
 
         # And now the area's data will be on the JSON file:
         if self.save() == 0:
@@ -149,7 +169,7 @@ class Area:
 
     def delete_area(self, _id):
         """
-        It deletes an existing area whose id is given as argument.
+        It deletes an existing area whose id is given as argument. Besides, through the given list_of_planting, this function does not delete an area that is already being used by at least one planting.
         """
 
         if _id < 0 or _id >= len(self.list_of_area):
@@ -159,6 +179,12 @@ class Area:
         elif len(self.list_of_area) == 1:
             print("Não é possível remover a área: deve haver pelo menos uma na propriedade.")
             return
+
+        else:
+            for planting in self.planting.list_of_planting:
+                if planting["area"] == self.list_of_area[_id]["name"]:
+                    print("Não é possível remover a área: ela já está em uso por um plantio. Edite ou remova o plantio primeiro.")
+                    return
 
         self.list_of_area.pop(_id)
 

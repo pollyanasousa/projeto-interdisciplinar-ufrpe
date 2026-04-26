@@ -18,15 +18,21 @@ class Harvest:
         self.list_of_harvest = []
 
 
-    def capture_culture(self):
+    def capture_culture(self, write_new=False):
         """
-        It asks the user for the harvest's culture. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's culture.
+        It asks the user for the harvest's culture. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's culture. The argument write_new makes the input message display it is a new culture when True.
         """
 
         invalid = True
 
         while invalid:
-            culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
+            culture = ""
+
+            if write_new:
+                culture = input("Informe o novo nome da cultura (exemplo: milho, feijão, mandioca): ")
+            else:
+                culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
+
             culture = culture.capitalize()
 
             invalid = not is_valid_name(culture)
@@ -37,15 +43,21 @@ class Harvest:
             else:
                 return culture
 
-    def capture_amount(self):
+    def capture_amount(self, write_new=False):
         """
-        It asks the user for the harvest's amount. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's amount.
+        It asks the user for the harvest's amount. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's amount. The argument write_new makes the input message display it is a new amount when True.
         """
 
         invalid = True
 
         while invalid:
-            amount = input("Informe a quantidade da colheita (exemplo: 10 sacos, 5 caixas): ")
+            amount = ""
+
+            if write_new:
+                amount = input("Informe a nova quantidade da colheita (exemplo: 10 sacos, 5 caixas): ")
+            else:
+                amount = input("Informe a quantidade da colheita (exemplo: 10 sacos, 5 caixas): ")
+
             amount = amount.capitalize()
 
             invalid = not is_valid_name(amount, True)
@@ -56,15 +68,20 @@ class Harvest:
             else:
                 return amount
 
-    def capture_date(self):
+    def capture_date(self, write_new=False):
         """
-        It asks the user for the harvest's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's date.
+        It asks the user for the harvest's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's date. The argument write_new makes the input message display it is a new date when True.
         """
 
         invalid = True
 
         while invalid:
-            date = input("Informe a data da colheita: ")
+            date = ""
+
+            if write_new:
+                date = input("Informe a nova data da colheita: ")
+            else:
+                date = input("Informe a data da colheita: ")
 
             invalid = not is_valid_date(date)
 
@@ -199,13 +216,13 @@ class Harvest:
         option = show_menu(["Cultura", "Quantidade", "Data da colheita"])
 
         if option == 0:
-            culture = self.capture_culture()
+            culture = self.capture_culture(True)
             self.list_of_harvest[_id]["culture"] = culture
         elif option == 1:
-            amount = self.capture_amount()
+            amount = self.capture_amount(True)
             self.list_of_harvest[_id]["amount"] = amount
         elif option == 2:
-            date = self.capture_date()
+            date = self.capture_date(True)
             self.list_of_harvest[_id]["date"] = date
 
         # And now the harvest's data will be on the JSON file:
