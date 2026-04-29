@@ -1,14 +1,16 @@
 """
-This file contains the menu function.
+Este arquivo contém a função de menu.
 """
 
 def show_menu(options):
     """
-    It shows the user a menu, using the options list elements as options, and returns the index of the chosen option (0 is the start point of the returns, although 1 is the start point of the menu screen).
+    Exibe ao usuário um menu, usando os elementos da lista options como opções, e retorna o índice da opção escolhida (0 é o ponto de partida dos retornos, embora 1 seja o ponto de partida na tela do menu).
     """
 
+    print("")
     for index, option in enumerate(options):
         print(f"({index+1}) {option}")
+    print("")
 
     invalid = True
 

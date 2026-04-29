@@ -171,6 +171,6 @@ class Report:
                 report_path = os.path.realpath(REPORT_NAME)
                 webbrowser.open('file://' + report_path)
 
-        except Except as e:
+        except Exception as e:
             print("Falha ao gerar o relatório de safra!")
             print(e)

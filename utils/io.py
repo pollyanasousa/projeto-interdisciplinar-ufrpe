@@ -1,12 +1,12 @@
 """
-This file contains the functions to deal with IO (input/output).
+Este arquivo contém as funções para lidar com E/S (entrada/saída).
 """
 
 import re
 
 def inputint(msg):
     """
-    It asks for an integer and returns the int the user typed. The variable msg is the message displayed on the screen. While the user does not type a valid int, the function keeps prompting him.
+    Solicita um número inteiro e retorna o valor digitado pelo usuário. A variável msg é a mensagem exibida na tela. Enquanto o usuário não digitar um inteiro válido, a função continua pedindo.
     """
 
     ret = ""

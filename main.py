@@ -46,6 +46,11 @@ def main():
 
 	running = True
 	while running:
+		print("")
+		print("------------------------------------------------------------------")
+		print("|**********************  Escolha uma opção  *********************|")
+		print("------------------------------------------------------------------")
+		print("")
 		option = show_menu(["Meus dados pessoais", "Consultar áreas", "Consultar plantio", "Colheita e gastos", "Gerar relatório de safra", "Sair"])
 
 		if option == 0:
@@ -55,6 +60,7 @@ def main():
 		elif option == 2:
 			farmer.planting.show_planting()
 		elif option == 3:
+			print("O que deseja fazer?")
 			option = show_menu(["Gerenciar colheita", "Gerenciar gastos", "Ver histórico"])
 
 			if option == 0:
@@ -73,4 +79,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-

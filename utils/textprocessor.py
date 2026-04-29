@@ -1,12 +1,12 @@
 """
-This file contains the textcapitalize function.
+Este arquivo contém a função textcapitalize.
 """
 
 import string
 
 def textcapitalize(text):
     """
-    It capitalizes all the words in a text, except prepositions.
+    Coloca a primeira letra de cada palavra em maiúscula, exceto as preposições.
     """
 
     text = string.capwords(text)

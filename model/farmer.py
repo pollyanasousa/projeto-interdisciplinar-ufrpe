@@ -227,19 +227,34 @@ class Farmer:
         """
 
         print("Bem-vindo! É um prazer tê-lo conosco!")
+        print("")
 
         self.capture_phone()
+        print("")
 
         print("Como você se chama?")
         self.capture_name()
+        print("")
 
         self.capture_cpf()
+        print("")
+
         self.capture_town()
+        print("")
+
         self.capture_state()
+        print("")
 
         print("Excelente! Agora, precisamos criar uma área, é nela onde são feitos os plantios.")
+        print("")
 
         self.area.new_area()
+        print("")
+
+        # Initializes the JSON files with empty structure
+        self.planting.save()
+        self.harvest.save()
+        self.expense.save()
 
         # And now the farmer's data will be on the JSON file:
         if self.save() == 0:
