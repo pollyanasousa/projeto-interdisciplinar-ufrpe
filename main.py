@@ -18,6 +18,8 @@ Cleyton Vanut
 """
 
 import sys
+import os
+import json
 
 from model.farmer import *
 from utils.menu import *
@@ -31,6 +33,29 @@ def main():
 	print("|****************************************************************|")
 	print("------------------------------------------------------------------")
 	print("")
+
+	# Initializes the data folder and JSON files with empty structure
+	os.makedirs("data", exist_ok=True)
+
+	if not os.path.exists("data/farmer.json"):
+		with open("data/farmer.json", "w") as f:
+			json.dump({}, f)
+
+	if not os.path.exists("data/area.json"):
+		with open("data/area.json", "w") as f:
+			json.dump({"list_of_area": []}, f)
+
+	if not os.path.exists("data/planting.json"):
+		with open("data/planting.json", "w") as f:
+			json.dump({"list_of_planting": []}, f)
+
+	if not os.path.exists("data/harvest.json"):
+		with open("data/harvest.json", "w") as f:
+			json.dump({"list_of_harvest": []}, f)
+
+	if not os.path.exists("data/expense.json"):
+		with open("data/expense.json", "w") as f:
+			json.dump({"list_of_expenses": []}, f)
 
 	# We start with our farmer, the protagonist:
 	farmer = Farmer("data/farmer.json")
@@ -48,7 +73,7 @@ def main():
 	while running:
 		print("")
 		print("------------------------------------------------------------------")
-		print("|**********************  Escolha uma opção  *********************|")
+		print("|" + "  Escolha uma opção  ".center(64, "*") + "|")
 		print("------------------------------------------------------------------")
 		print("")
 		option = show_menu(["Meus dados pessoais", "Consultar áreas", "Consultar plantio", "Colheita e gastos", "Gerar relatório de safra", "Sair"])
@@ -60,7 +85,6 @@ def main():
 		elif option == 2:
 			farmer.planting.show_planting()
 		elif option == 3:
-			print("O que deseja fazer?")
 			option = show_menu(["Gerenciar colheita", "Gerenciar gastos", "Ver histórico"])
 
 			if option == 0:

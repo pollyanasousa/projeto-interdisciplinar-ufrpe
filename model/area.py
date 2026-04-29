@@ -120,7 +120,7 @@ class Area:
 
         try:
             with open(self.areafile, "w") as pf:
-                json.dump({"list_of_area": self.list_of_area}, pf, indent=4)
+                json.dump({"list_of_area": self.list_of_area}, pf, indent=4, ensure_ascii=False)
 
             return 0
 

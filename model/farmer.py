@@ -210,7 +210,7 @@ class Farmer:
 
         try:
             with open(self.farmerfile, "w") as ff:
-                json.dump({"phone_number": self.phone_number, "name": self.name, "cpf": self.cpf, "town": self.town, "state": self.state}, ff, indent=4)
+                json.dump({"phone_number": self.phone_number, "name": self.name, "cpf": self.cpf, "town": self.town, "state": self.state}, ff, indent=4, ensure_ascii=False)
 
             return 0
 
@@ -250,11 +250,6 @@ class Farmer:
 
         self.area.new_area()
         print("")
-
-        # Initializes the JSON files with empty structure
-        self.planting.save()
-        self.harvest.save()
-        self.expense.save()
 
         # And now the farmer's data will be on the JSON file:
         if self.save() == 0:

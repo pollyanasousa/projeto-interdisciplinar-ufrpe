@@ -176,7 +176,7 @@ class Harvest:
 
         try:
             with open(self.harvestfile, "w") as pf:
-                json.dump({"list_of_harvest": self.list_of_harvest}, pf, indent=4)
+                json.dump({"list_of_harvest": self.list_of_harvest}, pf, indent=4, ensure_ascii=False)
 
             return 0
 

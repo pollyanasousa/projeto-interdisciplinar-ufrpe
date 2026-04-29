@@ -50,9 +50,10 @@ class Planting:
         """
 
         print("Áreas disponíveis para o plantio:")
-
+        print("")   
         for area in self.area.list_of_area:
             print(f"| {area['name']} |", end=" ")
+        print("")
         print("")
 
         invalid = True
@@ -203,7 +204,7 @@ class Planting:
 
         try:
             with open(self.plantingfile, "w") as pf:
-                json.dump({"list_of_planting": self.list_of_planting}, pf, indent=4)
+                json.dump({"list_of_planting": self.list_of_planting}, pf, indent=4, ensure_ascii=False)
 
             return 0
 

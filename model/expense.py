@@ -177,7 +177,7 @@ class Expense:
 
         try:
             with open(self.expensefile, "w") as pf:
-                json.dump({"list_of_expenses": self.list_of_expenses}, pf, indent=4)
+                json.dump({"list_of_expenses": self.list_of_expenses}, pf, indent=4, ensure_ascii=False)
 
             return 0
 
