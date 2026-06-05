@@ -49,6 +49,9 @@ cd projeto-interdisciplinar-ufrpe
 
 # Execute o sistema
 python3 main.py
+
+# Caso não haja a biblioteca PyQt6 instalada na máquina, use o comando
+pip install PyQt6
 ```
 
 > A pasta `data/` e os arquivos JSON são criados automaticamente na primeira execução.
