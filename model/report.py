@@ -1,8 +1,6 @@
 import os
 import webbrowser
 
-from utils.menu import *
-
 class Report:
     def __init__(self, farmer, area, planting, harvest, expense):
         """

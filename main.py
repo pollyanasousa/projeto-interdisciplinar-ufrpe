@@ -18,14 +18,10 @@ Cleyton Vanut
 """
 
 import sys
-import os
-import json
 
 from PyQt6.QtWidgets import QApplication
 
 from gui import Gui
-from model.farmer import *
-from utils.menu import *
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)

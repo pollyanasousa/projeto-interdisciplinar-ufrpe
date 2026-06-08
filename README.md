@@ -52,6 +52,9 @@ python3 main.py
 
 # Caso não haja a biblioteca PyQt6 instalada na máquina, use o comando
 pip install PyQt6
+
+# O mesmo para a Twilio
+pip install twilio
 ```
 
 > A pasta `data/` e os arquivos JSON são criados automaticamente na primeira execução.

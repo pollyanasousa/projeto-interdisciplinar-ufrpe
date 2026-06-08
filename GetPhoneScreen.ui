@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>360</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>360</width>
+    <height>640</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel{
+	font-family: &quot;Roboto Flex&quot;;
+}
+
+QPushButton{
+	background-color:#124831;
+	color:#E9F2EA;
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:600;
+	font-size:20px;
+	border-radius:5px;
+	padding:9px;
+}
+
+QPushButton:hover{
+	background-color:#003619;
+}
+
+QLineEdit{
+	border: 1px solid #D2813A;
+	color: #1E1E1E;
+	background-color: #FFFFFF;
+	border-radius: 9px;
+	font-size: 14px;
+}
+
+QLabel#welcome_label{
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:600;
+	font-size:48px;
+	color:#124831;
+}
+
+QLabel#question_label{
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:600;
+	font-size:20px;
+	color: #1E1E1E;
+}
+
+QLabel#code_label{
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:500;
+	font-size:12px;
+	color: #7C5A3C;
+}
+
+QLabel#phone_number_label{
+	font-weight:800;
+	color: #6DAD65;
+}
+
+QLabel#message_label{
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:600;
+	font-size:12px;
+	color:#124831;
+	background-color:#D6E6D4;
+	border-radius:9px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="phone_logo">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::TextFormat::AutoText</enum>
+         </property>
+         <property name="pixmap">
+          <pixmap>images/phone-icon.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QLabel" name="question_label">
+           <property name="text">
+            <string>Qual o seu celular?</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="code_label">
+           <property name="text">
+            <string>Vamos mandar um código pra confirmar que é você</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item alignment="Qt::AlignmentFlag::AlignHCenter">
+      <widget class="QLabel" name="phone_number_label">
+       <property name="text">
+        <string>Número do celular</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="phone_lineedit">
+       <property name="placeholderText">
+        <string>(81)9999-0000</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="receive_code_button">
+       <property name="text">
+        <string>→ Receber código</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../.designer/backup/images/leaves-icon.png</normaloff>../../.designer/backup/images/leaves-icon.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignmentFlag::AlignHCenter">
+      <widget class="QLabel" name="message_label">
+       <property name="text">
+        <string>Só você recebe o código. Não compartilhe com ninguém.</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::TextFormat::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap>images/locked-icon.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

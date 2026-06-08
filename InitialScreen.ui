@@ -26,11 +26,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow{
-	background-color:#E9F2EA;
-}
-
-QLabel{
+   <string notr="true">QLabel{
 	font-family: &quot;Roboto Flex&quot;;
 }
 
@@ -41,6 +37,25 @@ QPushButton{
 	font-weight:600;
 	font-size:20px;
 	border-radius:5px;
+	padding:9px;
+}
+
+QPushButton:hover{
+	background-color:#003619;
+}
+
+QLabel#welcome_label{
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:600;
+	font-size:48px;
+	color:#124831;
+}
+
+QLabel#presentation_label, QLabel#i_have_account_label{
+	font-family:&quot;Roboto Flex&quot;;
+	font-weight:600;
+	font-size:16px;
+	color:#7C5A3C;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -53,6 +68,12 @@ QPushButton{
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>214</width>
+         <height>160</height>
+        </size>
        </property>
        <property name="maximumSize">
         <size>
@@ -78,28 +99,32 @@ QPushButton{
       </widget>
      </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="welcome_label">
        <property name="text">
         <string>Bem-vindo!</string>
        </property>
       </widget>
      </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="presentation_label">
        <property name="text">
         <string>Seu caderninho digital do campo</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="signup_button">
        <property name="text">
         <string>Começar agora</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../.designer/backup/images/leaves-icon.png</normaloff>../../.designer/backup/images/leaves-icon.png</iconset>
        </property>
       </widget>
      </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="i_have_account_label">
        <property name="text">
         <string>— já tenho conta —</string>
        </property>
@@ -109,7 +134,7 @@ QPushButton{
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="login_button">
        <property name="text">
         <string>Entrar</string>
        </property>

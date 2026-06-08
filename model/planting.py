@@ -2,8 +2,6 @@ import json
 
 from utils.validators import *
 from utils.textprocessor import *
-from utils.menu import *
-from utils.io import *
 
 class Planting:
     def __init__(self, plantingfile, area):

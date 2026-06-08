@@ -8,7 +8,6 @@ from model.report import *
 
 from utils.validators import *
 from utils.textprocessor import *
-from utils.menu import *
 
 class Farmer:
     def __init__(self, farmerfile):
