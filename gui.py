@@ -26,12 +26,15 @@ class Gui(QMainWindow):
         self.farmer_cpf_screen = uic.loadUi("FarmerCPF.ui", None)
         self.farmer_location_screen = uic.loadUi("FarmerLocation.ui", None)
 
+        self.home_screen = uic.loadUi("HomeScreen.ui", None)
+
         self.stacked_widget.addWidget(self.initial_screen)
         self.stacked_widget.addWidget(self.phone_screen)
         self.stacked_widget.addWidget(self.sms_screen)
         self.stacked_widget.addWidget(self.farmer_name_screen)
         self.stacked_widget.addWidget(self.farmer_cpf_screen)
         self.stacked_widget.addWidget(self.farmer_location_screen)
+        self.stacked_widget.addWidget(self.home_screen)
 
         self.stacked_widget.setCurrentIndex(0)
 
@@ -43,6 +46,13 @@ class Gui(QMainWindow):
         self.farmer_name_screen.next_button.clicked.connect(self.next4)
         self.farmer_cpf_screen.next_button.clicked.connect(self.next5)
         self.farmer_location_screen.next_button.clicked.connect(self.next6)
+
+        self.home_screen.my_data_button.clicked.connect(self.my_data)
+        self.home_screen.expenses_button.clicked.connect(self.expenses)
+        self.home_screen.land_button.clicked.connect(self.areas)
+        self.home_screen.planting_button.clicked.connect(self.planting)
+        self.home_screen.harvest_button.clicked.connect(self.harvest)
+        self.home_screen.report_button.clicked.connect(self.report)
 
         self.sms = SMSSender()
 
@@ -95,7 +105,7 @@ class Gui(QMainWindow):
 
     def next6(self):
         if is_valid_town(self.farmer_location_screen.town_lineedit.text()):
-            self.stacked_widget.setCurrentIndex(5)
+            self.stacked_widget.setCurrentIndex(6)
         else:
             self.show_dialog("Cidade inválida!")
 
@@ -105,4 +115,22 @@ class Gui(QMainWindow):
     """
 
     def login(self):
-        print("Logando...")
+        self.stacked_widget.setCurrentIndex(6)
+
+    def my_data(self):
+        pass
+
+    def expenses(self):
+        pass
+
+    def areas(self):
+        pass
+
+    def planting(self):
+        pass
+
+    def harvest(self):
+        pass
+
+    def report(self):
+        pass
