@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QMainWindow, QMessageBox, QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QStackedWidget
 from PyQt6 import uic
 
+from gui.events import Events
 from model.farmer import *
 from utils.sms_sender import SMSSender
 from utils.validators import *
@@ -18,6 +19,18 @@ class AgroBookWindow(QMainWindow):
 
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
+
+        """
+        The farmer:
+        """
+
+        self.farmer = farmer
+
+        """
+        Creating the SMS object, to handle codes:
+        """
+
+        self.sms = SMSSender()
 
         """
         Screen for the beginning:
@@ -65,206 +78,41 @@ class AgroBookWindow(QMainWindow):
         self.stacked_widget.addWidget(self.harvests_screen)
 
         """
-        Setting initial screen as current index:
+        Initial adjustments:
         """
 
         self.stacked_widget.setCurrentIndex(0)
+
+        self.farmer_location_screen.state_combobox.addItems(list_of_states)
 
         """
         Adding events:
         """
 
-        self.initial_screen.signup_button.clicked.connect(self.sign_up)
-        self.initial_screen.login_button.clicked.connect(self.login)
+        self.events = Events(self)
 
-        self.phone_screen.receive_code_button.clicked.connect(self.sign_up_receive_code)
-        self.sms_screen.confirm_button.clicked.connect(self.sign_up_check_code)
-        self.farmer_name_screen.next_button.clicked.connect(self.sign_up_get_name)
-        self.farmer_cpf_screen.next_button.clicked.connect(self.sign_up_get_cpf)
-        self.farmer_location_screen.next_button.clicked.connect(self.sign_up_get_location)
+        self.initial_screen.signup_button.clicked.connect(self.events.sign_up)
+        self.initial_screen.login_button.clicked.connect(self.events.login)
 
-        self.home_screen.my_data_button.clicked.connect(self.my_data)
-        self.home_screen.expenses_button.clicked.connect(self.expenses)
-        self.home_screen.land_button.clicked.connect(self.areas)
-        self.home_screen.planting_button.clicked.connect(self.planting)
-        self.home_screen.harvest_button.clicked.connect(self.harvest)
-        self.home_screen.report_button.clicked.connect(self.report)
+        self.phone_screen.receive_code_button.clicked.connect(self.events.sign_up_receive_code)
+        self.sms_screen.code_lineedit1.textChanged.connect(lambda: self.events.sign_up_code_next_lineedit(self.sms_screen.code_lineedit2))
+        self.sms_screen.code_lineedit2.textChanged.connect(lambda: self.events.sign_up_code_next_lineedit(self.sms_screen.code_lineedit3))
+        self.sms_screen.code_lineedit3.textChanged.connect(lambda: self.events.sign_up_code_next_lineedit(self.sms_screen.code_lineedit4))
+        self.sms_screen.confirm_button.clicked.connect(self.events.sign_up_check_code)
+        self.farmer_name_screen.next_button.clicked.connect(self.events.sign_up_get_name)
+        self.farmer_cpf_screen.next_button.clicked.connect(self.events.sign_up_get_cpf)
+        self.farmer_location_screen.next_button.clicked.connect(self.events.sign_up_get_location)
 
-        self.my_data_screen.done_button.clicked.connect(self.process_my_data)
-        self.expenses_screen.done_button.clicked.connect(self.process_expenses)
-        self.areas_screen.done_button.clicked.connect(self.process_areas)
-        self.planting_screen.done_button.clicked.connect(self.process_planting)
-        self.harvests_screen.done_button.clicked.connect(self.process_harvests)
+        self.home_screen.my_data_button.clicked.connect(self.events.my_data)
+        self.home_screen.expenses_button.clicked.connect(self.events.expenses)
+        self.home_screen.land_button.clicked.connect(self.events.areas)
+        self.home_screen.planting_button.clicked.connect(self.events.planting)
+        self.home_screen.harvest_button.clicked.connect(self.events.harvest)
+        self.home_screen.report_button.clicked.connect(self.events.report)
 
-        """
-        The farmer:
-        """
-
-        self.farmer = farmer
-
-        """
-        Creating the SMS object, to handle codes:
-        """
-
-        self.sms = SMSSender()
-
-    """
-    Functions that deal with PyQt modals:
-    """
-
-    def show_error_dialog(self, message):
-        """
-        It shows an error dialog on the screen, whose message is passed as argument.
-        """
-
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Icon.Critical)
-        msg_box.setWindowTitle("Erro")
-        msg_box.setText(message)
-        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        
-        msg_box.exec()
-
-    def ask_dialog(self, message):
-        """
-        It shows a dialog on the screen, asking a "yes" or "no" question, whose content is passed
-        as argument.
-
-        It returns True if the user answered "yes" and False otherwise.
-        """
-
-        msg_box = QMessageBox.question(
-            self,
-            "Pergunta",
-            message,
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.Yes
-        )
-
-        return msg_box == QMessageBox.StandardButton.Yes
-
-    """
-    Events for sign up:
-    """
-
-    def sign_up(self):
-        self.stacked_widget.setCurrentIndex(1)
-
-    def sign_up_receive_code(self):
-        if is_valid_phone(self.phone_screen.phone_lineedit.text()):
-            phone = self.phone_screen.phone_lineedit.text()
-
-            self.sms.send(phone)
-            self.farmer.phone_number = phone
-            self.stacked_widget.setCurrentIndex(2)
-        else:
-            self.show_error_dialog("Telefone inválido!")
-
-    def sign_up_check_code(self):
-        user_entry = self.sms_screen.code_lineedit1.text() + self.sms_screen.code_lineedit2.text() + self.sms_screen.code_lineedit3.text() + self.sms_screen.code_lineedit4.text()
-
-        if user_entry == self.sms.code:
-            self.stacked_widget.setCurrentIndex(3)
-        else:
-            self.show_error_dialog("Código inválido!")
-
-    def sign_up_get_name(self):
-        if is_valid_name(self.farmer_name_screen.name_lineedit.text()):
-            name = self.farmer_name_screen.name_lineedit.text()
-
-            self.farmer.name = name
-            self.stacked_widget.setCurrentIndex(4)
-        else:
-            self.show_error_dialog("Nome inválido!")
-
-    def sign_up_get_cpf(self):
-        if is_valid_cpf(self.farmer_cpf_screen.cpf_lineedit.text()):
-            cpf = self.farmer_cpf_screen.cpf_lineedit.text()
-
-            self.farmer.cpf = cpf
-            self.stacked_widget.setCurrentIndex(5)
-        else:
-            self.show_error_dialog("CPF inválido!")
-
-    def sign_up_get_location(self):
-        if is_valid_town(self.farmer_location_screen.town_lineedit.text()):
-            town = self.farmer_location_screen.town_lineedit.text()
-            self.farmer.town = town
-
-            self.farmer.save() # This is important: all data need to be stored on the JSON files.
-
-            self.stacked_widget.setCurrentIndex(6)
-        else:
-            self.show_error_dialog("Cidade inválida!")
-
-
-    """
-    Events for login:
-    """
-
-    def login(self):
-        self.stacked_widget.setCurrentIndex(6)
-
-    def my_data(self):
-        self.my_data_screen.name_lineedit.setText(self.farmer.name)
-        self.my_data_screen.cpf_lineedit.setText(self.farmer.cpf)
-        self.my_data_screen.phone_lineedit.setText(self.farmer.phone_number)
-        self.my_data_screen.town_lineedit.setText(self.farmer.town)
-
-        self.stacked_widget.setCurrentIndex(7)
-
-    def expenses(self):
-        for _id, expense in enumerate(self.farmer.expense.list_of_expenses):
-            self.expenses_screen.expense_listwidget.addItem(expense)
-
-        self.stacked_widget.setCurrentIndex(8)
-
-    def areas(self):
-        for _id, area in enumerate(self.farmer.area.list_of_area):
-            text = f"area{'name'}"
-            self.areas_screen.area_listwidget.addItem(text)
-
-        self.stacked_widget.setCurrentIndex(9)
-
-    def planting(self):
-        for _id, planting in enumerate(self.farmer.planting.list_of_planting):
-            text = f"planting{'culture'} | planting{'amount'} | planting{'date'}"
-            self.planting_screen.planting_listwidget.addItem(text)
-
-        self.stacked_widget.setCurrentIndex(10)
-
-    def harvest(self):
-        for _id, harvest in enumerate(self.farmer.harvest.list_of_harvest):
-            text = f"harvest{'culture'} | harvest{'amount'} | harvest{'date'}"
-            self.harvests_screen.harvest_listwidget.addItem(text)
-
-        self.stacked_widget.setCurrentIndex(11)
-
-    def report(self):
-        if self.farmer.report.gen_report() != 0:
-            self.show_error_dialog("Erro: não foi possível gerar o relatório!")
-
-        if self.ask_dialog("Relatório gerado com sucesso! Deseja abri-lo no navegador?"):
-            self.farmer.report.open_report()
-
-    def process_my_data(self):
-        self.farmer.name = self.my_data_screen.name_lineedit.text()
-        self.farmer.cpf = self.my_data_screen.cpf_lineedit.text()
-        self.farmer.phone = self.my_data_screen.phone_lineedit.text()
-        self.farmer.town = self.my_data_screen.town_lineedit.text()
-
-        self.farmer.save()
-
-        self.stacked_widget.setCurrentIndex(6)
-
-    def process_expenses(self):
-        self.stacked_widget.setCurrentIndex(6)
-
-    def process_areas(self):
-        self.stacked_widget.setCurrentIndex(6)
-    
-    def process_planting(self):
-        self.stacked_widget.setCurrentIndex(6)
-
-    def process_harvests(self):
-        self.stacked_widget.setCurrentIndex(6)
+        self.my_data_screen.done_button.clicked.connect(self.events.process_my_data)
+        self.expenses_screen.done_button.clicked.connect(self.events.process_expenses)
+        self.expenses_screen.new_expense_button.clicked.connect(self.events.new_expense)
+        self.areas_screen.done_button.clicked.connect(self.events.process_areas)
+        self.planting_screen.done_button.clicked.connect(self.events.process_planting)
+        self.harvests_screen.done_button.clicked.connect(self.events.process_harvests)

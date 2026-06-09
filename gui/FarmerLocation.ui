@@ -49,7 +49,8 @@ QLineEdit{
 	color: #1E1E1E;
 	background-color: #FFFFFF;
 	border-radius: 9px;
-	font-size: 14px;
+	font-size: 16px;
+	margin-bottom:50px;
 }
 
 QLabel#welcome_label{
@@ -59,11 +60,12 @@ QLabel#welcome_label{
 	color:#124831;
 }
 
-QLabel#question_label{
+QLabel#code_sent_label{
 	font-family:&quot;Roboto Flex&quot;;
 	font-weight:600;
 	font-size:20px;
 	color: #1E1E1E;
+	margin-bottom:200px;
 }
 
 QLabel#code_label{
@@ -85,6 +87,15 @@ QLabel#message_label{
 	color:#124831;
 	background-color:#D6E6D4;
 	border-radius:9px;
+}
+
+QComboBox{
+	margin-bottom:100px;
+	background-color:#FFFFFF;
+	border: 1px solid #D2813A;
+	color: #1E1E1E;
+	border-radius: 9px;
+	font-size: 16px;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -148,6 +159,9 @@ QLabel#message_label{
      </item>
      <item>
       <widget class="QLineEdit" name="town_lineedit"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="state_combobox"/>
      </item>
      <item>
       <widget class="QPushButton" name="next_button">

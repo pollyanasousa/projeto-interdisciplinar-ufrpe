@@ -55,7 +55,8 @@ QLineEdit{
 	color: #1E1E1E;
 	background-color: #FFFFFF;
 	border-radius: 9px;
-	font-size: 14px;
+	font-size: 16px;
+	margin-bottom:200px;
 }
 
 QLabel#welcome_label{
@@ -65,11 +66,12 @@ QLabel#welcome_label{
 	color:#124831;
 }
 
-QLabel#question_label{
+QLabel#code_sent_label{
 	font-family:&quot;Roboto Flex&quot;;
 	font-weight:600;
 	font-size:20px;
 	color: #1E1E1E;
+	margin-bottom:200px;
 }
 
 QLabel#code_label{

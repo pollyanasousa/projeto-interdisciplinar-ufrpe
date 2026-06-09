@@ -49,6 +49,7 @@ QLabel#welcome_label{
 	font-weight:600;
 	font-size:48px;
 	color:#124831;
+	margin-bottom:20px;
 }
 
 QLabel#presentation_label, QLabel#i_have_account_label{
@@ -61,6 +62,31 @@ QLabel#presentation_label, QLabel#i_have_account_label{
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <item alignment="Qt::AlignmentFlag::AlignHCenter">
+      <widget class="QLabel" name="label">
+       <property name="minimumSize">
+        <size>
+         <width>214</width>
+         <height>160</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>214</width>
+         <height>160</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>images/logo.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
       <widget class="QLabel" name="welcome_label">
        <property name="sizePolicy">

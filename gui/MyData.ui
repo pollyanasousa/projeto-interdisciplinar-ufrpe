@@ -91,6 +91,14 @@ QLabel#message_label{
 	color:#124831;
 	background-color:#D6E6D4;
 	border-radius:9px;
+}
+
+QComboBox{
+	background-color:#FFFFFF;
+	border: 1px solid #D2813A;
+	color: #1E1E1E;
+	border-radius: 9px;
+	font-size: 16px;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
