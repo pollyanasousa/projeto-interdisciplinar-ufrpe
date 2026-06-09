@@ -89,74 +89,46 @@ QLabel#message_label{
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <widget class="QLabel" name="area_label">
+     <property name="text">
+      <string>Áreas</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="area_listwidget"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="progress1">
+      <widget class="QPushButton" name="new_area_button">
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/mark-on.png</pixmap>
+        <string>Nova área</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="progress2">
+      <widget class="QPushButton" name="delete_area_button">
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/mark-on.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="progress3">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/mark-on.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>3 de 3</string>
+        <string>Remover área</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLabel" name="code_sent_label">
-           <property name="text">
-            <string>Onde você mora?</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="town_lineedit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="next_button">
+      <widget class="QPushButton" name="done_button">
        <property name="text">
-        <string>Confirmar e continuar</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>images/okay-icon.png</normaloff>images/okay-icon.png</iconset>
+        <string>Concluído</string>
        </property>
       </widget>
      </item>

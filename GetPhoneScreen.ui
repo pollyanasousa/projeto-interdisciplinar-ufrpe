@@ -153,13 +153,10 @@ QLabel#message_label{
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
       <widget class="QLabel" name="message_label">
        <property name="text">
-        <string>Só você recebe o código. Não compartilhe com ninguém.</string>
+        <string>Só você recebe o código. Não &lt;br /&gt;compartilhe com ninguém.</string>
        </property>
        <property name="textFormat">
         <enum>Qt::TextFormat::AutoText</enum>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/locked-icon.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>false</bool>

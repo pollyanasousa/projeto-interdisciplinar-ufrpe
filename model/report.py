@@ -13,9 +13,13 @@ class Report:
         self.harvest = harvest
         self.expense = expense
 
+        self.REPORT_NAME = "RelatorioDeSafra.html"
+
     def gen_report(self):
         """
         It generates a report in PDF format.
+
+        It returns 0 if the function was successful and 1 otherwise.
         """
 
         area_html = ""
@@ -156,19 +160,16 @@ class Report:
         """
 
         try:
-            REPORT_NAME = "RelatorioDeSafra.html"
-
-            with open(REPORT_NAME, "w", encoding="utf-8") as result_file:
+            with open(self.REPORT_NAME, "w", encoding="utf-8") as result_file:
                 result_file.write(report_html)
 
-            print("Relatório gerado com sucesso!")
-            print("Deseja abri-lo no navegador?")
-
-            option = show_menu(["Sim", "Não"])
-            if option == 0:
-                report_path = os.path.realpath(REPORT_NAME)
-                webbrowser.open('file://' + report_path)
+            return 0
 
         except Exception as e:
             print("Falha ao gerar o relatório de safra!")
             print(e)
+            return 1
+
+    def open_report(self):
+        report_path = os.path.realpath(self.REPORT_NAME)
+        webbrowser.open('file://' + report_path)

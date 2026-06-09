@@ -149,13 +149,6 @@ QLabel#message_label{
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Não chegou? Reenviar código</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="confirm_button">
        <property name="text">
         <string>Confirmar</string>

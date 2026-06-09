@@ -93,21 +93,30 @@ QLabel#message_label{
      <item>
       <widget class="QLabel" name="progress1">
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>images/mark-on.png</pixmap>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="progress2">
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>images/mark-on.png</pixmap>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="progress3">
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>images/mark-off.png</pixmap>
        </property>
       </widget>
      </item>
