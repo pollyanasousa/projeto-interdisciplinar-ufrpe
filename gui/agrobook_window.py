@@ -2,10 +2,10 @@ from PyQt6.QtWidgets import QMainWindow, QMessageBox, QStackedWidget
 from PyQt6 import uic
 
 from model.farmer import *
-from sms_sender import SMSSender
+from utils.sms_sender import SMSSender
 from utils.validators import *
 
-class Gui(QMainWindow):
+class AgroBookWindow(QMainWindow):
     def __init__(self, farmer):
         """
         It represents the GUI. The argument farmer is an object of the class Farmer.
@@ -19,29 +19,33 @@ class Gui(QMainWindow):
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
 
-        self.initial_screen = uic.loadUi("InitialScreen.ui", None)
+        """
+        Screen for the beginning:
+        """
+
+        self.initial_screen = uic.loadUi("gui/InitialScreen.ui", None)
 
         """
         Screens for sign up:
         """
 
-        self.phone_screen = uic.loadUi("GetPhoneScreen.ui", None)
-        self.sms_screen = uic.loadUi("SMSScreen.ui", None)
+        self.phone_screen = uic.loadUi("gui/GetPhoneScreen.ui", None)
+        self.sms_screen = uic.loadUi("gui/SMSScreen.ui", None)
 
-        self.farmer_name_screen = uic.loadUi("FarmerName.ui", None)
-        self.farmer_cpf_screen = uic.loadUi("FarmerCPF.ui", None)
-        self.farmer_location_screen = uic.loadUi("FarmerLocation.ui", None)
+        self.farmer_name_screen = uic.loadUi("gui/FarmerName.ui", None)
+        self.farmer_cpf_screen = uic.loadUi("gui/FarmerCPF.ui", None)
+        self.farmer_location_screen = uic.loadUi("gui/FarmerLocation.ui", None)
 
         """
         Screens for login:
         """
 
-        self.home_screen = uic.loadUi("HomeScreen.ui", None)
-        self.my_data_screen = uic.loadUi("MyData.ui", None)
-        self.expenses_screen = uic.loadUi("Expenses.ui", None)
-        self.areas_screen = uic.loadUi("Areas.ui", None)
-        self.planting_screen = uic.loadUi("Planting.ui", None)
-        self.harvests_screen = uic.loadUi("Harvests.ui", None)
+        self.home_screen = uic.loadUi("gui/HomeScreen.ui", None)
+        self.my_data_screen = uic.loadUi("gui/MyData.ui", None)
+        self.expenses_screen = uic.loadUi("gui/Expenses.ui", None)
+        self.areas_screen = uic.loadUi("gui/Areas.ui", None)
+        self.planting_screen = uic.loadUi("gui/Planting.ui", None)
+        self.harvests_screen = uic.loadUi("gui/Harvests.ui", None)
 
         """
         Adding screens on self.stacked_widget:
@@ -217,19 +221,22 @@ class Gui(QMainWindow):
 
     def areas(self):
         for _id, area in enumerate(self.farmer.area.list_of_area):
-            self.areas_screen.area_listwidget.addItem(area)
+            text = f"area{'name'}"
+            self.areas_screen.area_listwidget.addItem(text)
 
         self.stacked_widget.setCurrentIndex(9)
 
     def planting(self):
         for _id, planting in enumerate(self.farmer.planting.list_of_planting):
-            self.planting_screen.planting_listwidget.addItem(planting)
+            text = f"planting{'culture'} | planting{'amount'} | planting{'date'}"
+            self.planting_screen.planting_listwidget.addItem(text)
 
         self.stacked_widget.setCurrentIndex(10)
 
     def harvest(self):
         for _id, harvest in enumerate(self.farmer.harvest.list_of_harvest):
-            self.harvests_screen.harvest_listwidget.addItem(harvest)
+            text = f"harvest{'culture'} | harvest{'amount'} | harvest{'date'}"
+            self.harvests_screen.harvest_listwidget.addItem(text)
 
         self.stacked_widget.setCurrentIndex(11)
 

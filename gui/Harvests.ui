@@ -52,10 +52,10 @@ QLineEdit{
 	font-size: 14px;
 }
 
-QLabel#welcome_label{
+QLabel#main_label{
 	font-family:&quot;Roboto Flex&quot;;
 	font-weight:600;
-	font-size:48px;
+	font-size:24px;
 	color:#124831;
 }
 
@@ -89,70 +89,46 @@ QLabel#message_label{
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <widget class="QLabel" name="main_label">
+     <property name="text">
+      <string>Colheitas</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="harvest_listwidget"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="progress1">
+      <widget class="QPushButton" name="new_harvest_button">
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/mark-on.png</pixmap>
+        <string>Nova colheita</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="progress2">
+      <widget class="QPushButton" name="delete_harvest_button">
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/mark-off.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="progress3">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap>images/mark-off.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>1 de 3</string>
+        <string>Remover colheita</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLabel" name="code_sent_label">
-           <property name="text">
-            <string>Como você se chama?</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="name_lineedit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="next_button">
+      <widget class="QPushButton" name="done_button">
        <property name="text">
-        <string>→ Próximo</string>
+        <string>Concluído</string>
        </property>
       </widget>
      </item>

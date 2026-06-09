@@ -10,6 +10,12 @@
     <height>640</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>360</width>
@@ -52,10 +58,10 @@ QLineEdit{
 	font-size: 14px;
 }
 
-QLabel#welcome_label{
+QLabel#main_label{
 	font-family:&quot;Roboto Flex&quot;;
 	font-weight:600;
-	font-size:48px;
+	font-size:24px;
 	color:#124831;
 }
 
@@ -89,39 +95,83 @@ QLabel#message_label{
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QLabel" name="planting_label">
+    <widget class="QLabel" name="main_label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
-      <string>Plantios</string>
+      <string>Meus dados pessoais</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="planting_listwidget"/>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QPushButton" name="new_planting_button">
+      <widget class="QLabel" name="name_label">
        <property name="text">
-        <string>Novo plantio</string>
+        <string>Nome</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="delete_planting_button">
-       <property name="text">
-        <string>Remover plantio</string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="name_lineedit"/>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="cpf_label">
+       <property name="text">
+        <string>CPF</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="cpf_lineedit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="phone_label">
+       <property name="text">
+        <string>Telefone</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="phone_lineedit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="town_label">
+       <property name="text">
+        <string>Cidade</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="town_lineedit"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="state_label">
+       <property name="text">
+        <string>Estado</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="state_combobox"/>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">

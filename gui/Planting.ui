@@ -52,10 +52,10 @@ QLineEdit{
 	font-size: 14px;
 }
 
-QLabel#welcome_label{
+QLabel#main_label{
 	font-family:&quot;Roboto Flex&quot;;
 	font-weight:600;
-	font-size:48px;
+	font-size:24px;
 	color:#124831;
 }
 
@@ -89,28 +89,28 @@ QLabel#message_label{
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QLabel" name="harvest_label">
+    <widget class="QLabel" name="main_label">
      <property name="text">
-      <string>Colheitas</string>
+      <string>Plantios</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="harvest_listwidget"/>
+    <widget class="QListWidget" name="planting_listwidget"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="new_harvest_button">
+      <widget class="QPushButton" name="new_planting_button">
        <property name="text">
-        <string>Nova colheita</string>
+        <string>Novo plantio</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="delete_harvest_button">
+      <widget class="QPushButton" name="delete_planting_button">
        <property name="text">
-        <string>Remover colheita</string>
+        <string>Remover plantio</string>
        </property>
       </widget>
      </item>

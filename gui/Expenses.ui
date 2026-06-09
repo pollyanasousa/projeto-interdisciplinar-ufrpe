@@ -52,10 +52,10 @@ QLineEdit{
 	font-size: 14px;
 }
 
-QLabel#welcome_label{
+QLabel#main_label{
 	font-family:&quot;Roboto Flex&quot;;
 	font-weight:600;
-	font-size:48px;
+	font-size:24px;
 	color:#124831;
 }
 
@@ -89,28 +89,28 @@ QLabel#message_label{
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QLabel" name="area_label">
+    <widget class="QLabel" name="main_label">
      <property name="text">
-      <string>Áreas</string>
+      <string>Gastos</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="area_listwidget"/>
+    <widget class="QListWidget" name="expense_listwidget"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="new_area_button">
+      <widget class="QPushButton" name="new_expense_button">
        <property name="text">
-        <string>Nova área</string>
+        <string>Novo gasto</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="delete_area_button">
+      <widget class="QPushButton" name="delete_expense_button">
        <property name="text">
-        <string>Remover área</string>
+        <string>Remover gasto</string>
        </property>
       </widget>
      </item>

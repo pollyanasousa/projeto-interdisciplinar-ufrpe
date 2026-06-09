@@ -23,7 +23,7 @@ import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from gui import Gui
+from gui import agrobook_window
 from model.farmer import Farmer
 
 if __name__ == "__main__":
@@ -58,6 +58,6 @@ if __name__ == "__main__":
 	"""
 
 	app = QApplication(sys.argv)
-	gui = Gui(farmer)
+	gui = agrobook_window.AgroBookWindow(farmer)
 	gui.show()
 	sys.exit(app.exec())
