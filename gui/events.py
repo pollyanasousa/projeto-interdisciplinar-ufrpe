@@ -174,13 +174,12 @@ class Events:
         data = self.dialog.form_dialog(["Tipo de gasto (exemplo: adubo, transporte, mão de obra)", "Valor do gasto (exemplo: 100 reais)", "Data do gasto"], [is_valid_name, lambda name: is_valid_name(name, allow_numbers=True), is_valid_date])
 
         if data:
-            text = f"Gasto: {data[0]} | Valor: {data[1]} | Data: {data[2]}"
+            line = self.window.expenses_screen.expense_listwidget.currentRow()
 
-            self.window.expenses_screen.expense_listwidget.updateItem(selectedId, text)
-
-            #self.window.farmer.expense.update_expense()
-
+            self.window.farmer.expense.update_expense(line, data[0], data[1], data[2])
             self.window.farmer.save()
+
+            self.expenses()
         else:
             self.dialog.error_dialog("Erro ao editar gasto! Verifique os dados digitados.")
 
@@ -213,13 +212,12 @@ class Events:
         data = self.dialog.form_dialog(["Nome da área (exemplo: roçado do fundo, terra perto do rio)"], [is_valid_name])
 
         if data:
-            text = f"Área: {data[0]}"
+            line = self.window.expenses_screen.expense_listwidget.currentRow()
 
-            self.window.areas_screen.area_listwidget.updateItem(selectedId, text)
-
-            #self.window.farmer.area.update_area()
-
+            self.window.farmer.area.update_area(line, data[0])
             self.window.farmer.save()
+
+            self.areas()
         else:
             self.dialog.error_dialog("Erro ao editar área! Verifique os dados digitados.")
     
@@ -252,13 +250,12 @@ class Events:
         data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)"], [is_valid_name, is_valid_name, lambda name: is_valid_name(name, True)])
 
         if data:
-            text = f"Cultura: {data[0]} | Área: {data[1]} | Quantidade: {data[2]}"
+            line = line = self.window.planting_screen.planting_listwidget.currentRow()
 
-            self.window.planting_screen.planting_listwidget.updateItem(selectedId, text)
-
-            #self.window.farmer.planting.update_planting()
-
+            self.window.farmer.planting.update_planting(line, data[0], data[1], data[2], data[3])
             self.window.farmer.save()
+
+            self.planting()
         else:
             self.dialog.error_dialog("Erro ao editar plantio! Verifique os dados digitados.")
 
@@ -291,12 +288,11 @@ class Events:
         data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(True), is_valid_date])
 
         if data:
-            text = f"Cultura: {data[0]} | Quantidade: {data[1]} | Data: {data[2]}"
+            line = self.window.harvests_screen.harvest_listwidget.currentRow()
 
-            self.window.harvests_screen.harvest_listwidget.updateItem(selectedId, text)
-
-            #self.window.farmer.harvest.update_harvest()
-
+            self.window.farmer.harvest.update_harvest(line, data[0], data[1], data[2])
             self.window.farmer.save()
+
+            self.harvest()
         else:
             self.dialog.error_dialog("Erro ao editar colheita! Verifique os dados digitados.")
