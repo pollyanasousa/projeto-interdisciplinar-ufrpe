@@ -146,9 +146,33 @@ class Events:
 
             self.window.expenses_screen.expense_listwidget.addItem(text)
 
+            #self.window.farmer.expense.new_expense()
+
             self.window.farmer.save()
         else:
             self.dialog.error_dialog("Erro ao adicionar gasto! Verifique os dados digitados.")
+
+    def delete_expense(self):
+        if self.dialog.yes_or_no_dialog("Deseja remover o gasto selecionado?"):
+            self.window.expenses_screen.expense_listwidget.removeItem(selectedId)
+
+            self.window.farmer.expense.delete_expense()
+
+            self.window.farmer.save()
+
+    def update_expense(self):
+        data = self.dialog.form_dialog(["Tipo de gasto (exemplo: adubo, transporte, mão de obra)", "Valor do gasto (exemplo: 100 reais)", "Data do gasto"], [is_valid_name, lambda name: is_valid_name(name, allow_numbers=True), is_valid_date])
+
+        if data:
+            text = f"Gasto: {data[0]} | Valor: {data[1]} | Data: {data[2]}"
+
+            self.window.expenses_screen.expense_listwidget.updateItem(selectedId, text)
+
+            #self.window.farmer.expense.update_expense()
+
+            self.window.farmer.save()
+        else:
+            self.dialog.error_dialog("Erro ao editar gasto! Verifique os dados digitados.")
 
     def process_areas(self):
         self.window.stacked_widget.setCurrentIndex(6)
@@ -161,9 +185,33 @@ class Events:
 
             self.window.areas_screen.area_listwidget.addItem(text)
 
+            #self.window.farmer.area.new_area()
+
             self.window.farmer.save()
         else:
             self.dialog.error_dialog("Erro ao adicionar área! Verifique os dados digitados.")
+
+    def delete_area(self):
+        if self.dialog.yes_or_no_dialog("Deseja remover a área selecionada?"):
+            self.window.area_screen.area_listwidget.removeItem(selectedId)
+
+            #self.window.farmer.area.delete_area()
+
+            self.window.farmer.save()
+
+    def update_area(self):
+        data = self.dialog.form_dialog(["Nome da área (exemplo: roçado do fundo, terra perto do rio)"], [is_valid_name])
+
+        if data:
+            text = f"Área: {data[0]}"
+
+            self.window.areas_screen.area_listwidget.updateItem(selectedId, text)
+
+            #self.window.farmer.area.update_area()
+
+            self.window.farmer.save()
+        else:
+            self.dialog.error_dialog("Erro ao editar área! Verifique os dados digitados.")
     
     def process_planting(self):
         self.window.stacked_widget.setCurrentIndex(6)
@@ -176,9 +224,33 @@ class Events:
 
             self.window.planting_screen.planting_listwidget.addItem(text)
 
+            #self.window.farmer.planting.new_planting()
+
             self.window.farmer.save()
         else:
             self.dialog.error_dialog("Erro ao adicionar plantio! Verifique os dados digitados.")
+
+    def delete_planting(self):
+        if self.dialog.yes_or_no_dialog("Deseja remover o plantio selecionado?"):
+            self.window.planting_screen.expense_listwidget.removeItem(selectedId)
+
+            #self.window.farmer.planting.delete_planting()
+
+            self.window.farmer.save()
+
+    def update_planting(self):
+        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)"], [is_valid_name, is_valid_name, lambda name: is_valid_name(name, True)])
+
+        if data:
+            text = f"Cultura: {data[0]} | Área: {data[1]} | Quantidade: {data[2]}"
+
+            self.window.planting_screen.planting_listwidget.updateItem(selectedId, text)
+
+            #self.window.farmer.planting.update_planting()
+
+            self.window.farmer.save()
+        else:
+            self.dialog.error_dialog("Erro ao editar plantio! Verifique os dados digitados.")
 
     def process_harvests(self):
         self.window.stacked_widget.setCurrentIndex(6)
@@ -191,6 +263,30 @@ class Events:
 
             self.window.harvests_screen.harvest_listwidget.addItem(text)
 
+            #self.window.farmer.harvest.new_harvest()
+
             self.window.farmer.save()
         else:
             self.dialog.error_dialog("Erro ao adicionar colheita! Verifique os dados digitados.")
+
+    def delete_harvest(self):
+        if self.dialog.yes_or_no_dialog("Deseja remover a colheita selecionada?"):
+            self.window.harvests_screen.harvest_listwidget.removeItem(selectedId)
+
+            #self.window.farmer.harvest.delete_harvest()
+
+            self.window.farmer.save()
+
+    def update_harvest(self):
+        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(True), is_valid_date])
+
+        if data:
+            text = f"Cultura: {data[0]} | Quantidade: {data[1]} | Data: {data[2]}"
+
+            self.window.harvests_screen.harvest_listwidget.updateItem(selectedId, text)
+
+            #self.window.farmer.harvest.update_harvest()
+
+            self.window.farmer.save()
+        else:
+            self.dialog.error_dialog("Erro ao editar colheita! Verifique os dados digitados.")

@@ -15,127 +15,6 @@ class Harvest:
 
         self.list_of_harvest = []
 
-
-    def capture_culture(self, write_new=False):
-        """
-        It asks the user for the harvest's culture. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's culture. The argument write_new makes the input message display it is a new culture when True.
-        """
-
-        invalid = True
-
-        while invalid:
-            culture = ""
-
-            if write_new:
-                culture = input("Informe o novo nome da cultura (exemplo: milho, feijão, mandioca): ")
-            else:
-                culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
-
-            culture = culture.capitalize()
-
-            invalid = not is_valid_name(culture)
-
-            if invalid:
-                print("Nome de cultura inválido!")
-
-            else:
-                return culture
-
-    def capture_amount(self, write_new=False):
-        """
-        It asks the user for the harvest's amount. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's amount. The argument write_new makes the input message display it is a new amount when True.
-        """
-
-        invalid = True
-
-        while invalid:
-            amount = ""
-
-            if write_new:
-                amount = input("Informe a nova quantidade da colheita (exemplo: 10 sacos, 5 caixas): ")
-            else:
-                amount = input("Informe a quantidade da colheita (exemplo: 10 sacos, 5 caixas): ")
-
-            amount = amount.capitalize()
-
-            invalid = not is_valid_name(amount, True)
-
-            if invalid:
-                print("Quantidade inválida!")
-
-            else:
-                return amount
-
-    def capture_date(self, write_new=False):
-        """
-        It asks the user for the harvest's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the harvest's date. The argument write_new makes the input message display it is a new date when True.
-        """
-
-        invalid = True
-
-        while invalid:
-            date = ""
-
-            if write_new:
-                date = input("Informe a nova data da colheita: ")
-            else:
-                date = input("Informe a data da colheita: ")
-
-            invalid = not is_valid_date(date)
-
-            if invalid:
-                print("Data inválida!")
-
-            else:
-                return date
-
-    def show_harvest(self):
-        if len(self.list_of_harvest) == 0:
-            print("Não há colheitas cadastradas.")
-
-        else:
-            print("Lista de colheita:\n")
-
-            for _id, harvest in enumerate(self.list_of_harvest):
-                print("Número de identificação:", _id+1)
-                print("Cultura:", harvest["culture"])
-                print("Quantidade:", harvest["amount"])
-                print("Data da colheita:", harvest["date"])
-
-                print("")
-
-    def manage_harvest(self):
-        """
-        It manages the harvest.
-        """
-
-        self.show_harvest()
-
-        if len(self.list_of_harvest) == 0:
-            print("Deseja realizar o cadastro de uma colheita?")
-            option = show_menu(["Sim", "Não"])
-
-            if option == 0:
-                self.new_harvest()
-        else:
-            print("Deseja realizar alguma alteração na lista de colheita?")
-            option = show_menu(["Sim", "Não"])
-
-            if option == 0:
-                print("Qual alteração desejada?")
-                option = show_menu(["Adicionar nova colheita", "Alterar colheita existente", "Remover colheita existente", "Cancelar"])
-
-                if option == 0:
-                    self.new_harvest()
-                elif option == 1:
-                    _id = inputint("Digite o número de identificação da colheita: ")
-                    self.update_harvest(_id-1) # The internal counting starts from id 0
-                elif option == 2:
-                    _id = inputint("Digite o número de identificação da colheita: ")
-                    self.delete_harvest(_id-1) # The internal counting starts from 0
-                else:
-                    pass
-
     def read(self, mute=False):
         """
         It reads the harvest's data on the harvestfile, copying the data to the self variables.
@@ -184,22 +63,15 @@ class Harvest:
 
             return 1
 
-    def new_harvest(self):
+    def new_harvest(self, culture, amount, date):
         """
-        It adds a new harvest.
+        It adds a new harvest, and culture, amount and date are the arguments.
         """
-
-        print("Adicionando colheita...")
-
-        culture = self.capture_culture()
-        amount = self.capture_amount()
-        date = self.capture_date()
 
         self.list_of_harvest.append({"culture": culture, "amount": amount, "date": date})
 
         # And now the harvest's data will be on the JSON file:
-        if self.save() == 0:
-            print("Colheita registrada com sucesso!")
+        self.save()
 
     def update_harvest(self, _id):
         """

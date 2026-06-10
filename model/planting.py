@@ -16,154 +16,6 @@ class Planting:
 
         self.list_of_planting = []
 
-
-    def capture_culture(self, write_new=False):
-        """
-        It asks the user for the planting's culture. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's culture. The argument write_new makes the input message display it is a new culture when True.
-        """
-
-        invalid = True
-
-        while invalid:
-            culture = ""
-
-            if write_new:
-                culture = input("Informe o novo nome da cultura (exemplo: milho, feijão, mandioca): ")
-            else:
-                culture = input("Informe o nome da cultura (exemplo: milho, feijão, mandioca): ")
-
-            culture = culture.capitalize()
-
-            invalid = not is_valid_name(culture)
-
-            if invalid:
-                print("Nome de cultura inválido!")
-
-            else:
-                return culture
-
-    def capture_area(self, write_new=False):
-        """
-        It asks the user for the planting's area. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's area. The argument write_new makes the input message display it is a new area when True.
-        """
-
-        print("Áreas disponíveis para o plantio:")
-        print("")   
-        for area in self.area.list_of_area:
-            print(f"| {area['name']} |", end=" ")
-        print("")
-        print("")
-
-        invalid = True
-
-        while invalid:
-            area = ""
-
-            if write_new:
-                area = input("Informe a nova área da cultura: ")
-            else:
-                area = input("Informe a área da cultura: ")
-
-            invalid = not is_valid_name(area, True)
-
-            if invalid:
-                print("Área inválida!")
-
-            elif not area in [i["name"] for i in self.area.list_of_area]:
-                print("Área não existente! Por gentileza, informe uma das áreas disponíveis para plantio.")
-                invalid = True
-
-            else:
-                return area
-
-    def capture_amount(self, write_new=False):
-        """
-        It asks the user for the planting's amount. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's amount. The argument write_new makes the input message display it is a new amount when True.
-        """
-
-        invalid = True
-
-        while invalid:
-            amount = ""
-
-            if write_new:
-                amount = input("Informe a nova quantidade da cultura (exemplo: 3 sacos, 2 caixas): ")
-            else:
-                amount = input("Informe a quantidade da cultura (exemplo: 3 sacos, 2 caixas): ")
-
-            amount = amount.capitalize()
-
-            invalid = not is_valid_name(amount, True)
-
-            if invalid:
-                print("Quantidade inválida!")
-
-            else:
-                return amount
-
-    def capture_date(self, write_new=False):
-        """
-        It asks the user for the planting's date. When the user prompts a valid one, this function returns the input. However, if the prompt was not valid, the function keeps asking for the planting's date. The argument write_new makes the input message display it is a new date when True.
-        """
-
-        invalid = True
-
-        while invalid:
-            date = ""
-
-            if write_new:
-                date = input("Informe a nova data do plantio: ")
-            else:
-                date = input("Informe a data do plantio: ")
-
-            invalid = not is_valid_date(date)
-
-            if invalid:
-                print("Data inválida!")
-
-            else:
-                return date
-
-    def show_planting(self):
-        if len(self.list_of_planting) == 0:
-            print("Não há plantios cadastrados.")
-
-            print("Deseja realizar o cadastro de um plantio?")
-            option = show_menu(["Sim", "Não"])
-
-            if option == 0:
-                self.new_planting()
-
-        else:
-            print("Lista de plantio:\n")
-
-            for _id, planting in enumerate(self.list_of_planting):
-                print("Número de identificação:", _id+1)
-                print("Cultura:", planting["culture"])
-                print("Área:", planting["area"])
-                print("Quantidade:", planting["amount"])
-                print("Data do plantio:", planting["date"])
-
-                print("")
-
-            print("Deseja realizar alguma alteração na lista de plantio?")
-            option = show_menu(["Sim", "Não"])
-
-            if option == 0:
-                print("Qual alteração desejada?")
-                option = show_menu(["Adicionar novo plantio", "Alterar plantio existente", "Remover plantio existente", "Cancelar"])
-
-                if option == 0:
-                    self.new_planting()
-                elif option == 1:
-                    _id = inputint("Digite o número de identificação do plantio: ")
-                    self.update_planting(_id-1) # The internal counting starts from id 0
-                elif option == 2:
-                    _id = inputint("Digite o número de identificação do plantio: ")
-                    self.delete_planting(_id-1) # The internal counting starts from 0
-                else:
-                    pass
-
     def read(self, mute=False):
         """
         It reads the planting's data on the plantingfile, copying the data to the self variables.
@@ -212,23 +64,15 @@ class Planting:
 
             return 1
 
-    def new_planting(self):
+    def new_planting(self, culture, area, amount, date):
         """
         It adds a new planting.
         """
 
-        print("Adicionando plantio...")
-
-        culture = self.capture_culture()
-        area = self.capture_area()
-        amount = self.capture_amount()
-        date = self.capture_date()
-
         self.list_of_planting.append({"culture": culture, "area": area, "amount": amount, "date": date})
 
         # And now the planting's data will be on the JSON file:
-        if self.save() == 0:
-            print("Plantio registrado com sucesso!")
+        self.save()
 
     def update_planting(self, _id):
         """
