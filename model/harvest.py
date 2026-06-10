@@ -73,31 +73,22 @@ class Harvest:
         # And now the harvest's data will be on the JSON file:
         self.save()
 
-    def update_harvest(self, _id):
+    def update_harvest(self, _id, culture, amount, date):
         """
         It updates an existing harvest whose id is given as argument.
+        culture, amount and date are the new data.
         """
 
         if _id < 0 or _id >= len(self.list_of_harvest):
             print("Número de identificação inválido!")
             return
 
-        print("Qual atributo você deseja alterar?")
-        option = show_menu(["Cultura", "Quantidade", "Data da colheita"])
-
-        if option == 0:
-            culture = self.capture_culture(True)
-            self.list_of_harvest[_id]["culture"] = culture
-        elif option == 1:
-            amount = self.capture_amount(True)
-            self.list_of_harvest[_id]["amount"] = amount
-        elif option == 2:
-            date = self.capture_date(True)
-            self.list_of_harvest[_id]["date"] = date
+        self.list_of_harvest[_id]["culture"] = culture
+        self.list_of_harvest[_id]["amount"] = amount
+        self.list_of_harvest[_id]["date"] = date
 
         # And now the harvest's data will be on the JSON file:
-        if self.save() == 0:
-            print("Colheita editada com sucesso!")
+        self.save()
 
     def delete_harvest(self, _id):
         """

@@ -74,34 +74,23 @@ class Planting:
         # And now the planting's data will be on the JSON file:
         self.save()
 
-    def update_planting(self, _id):
+    def update_planting(self, _id, culture, area, amount, date):
         """
         It updates an existing planting whose id is given as argument.
+        culture, area, amount and date are the new data.
         """
 
         if _id < 0 or _id >= len(self.list_of_planting):
             print("Número de identificação inválido!")
             return
 
-        print("Qual atributo você deseja alterar?")
-        option = show_menu(["Cultura", "Área", "Quantidade", "Data do plantio"])
-
-        if option == 0:
-            culture = self.capture_culture(True)
-            self.list_of_planting[_id]["culture"] = culture
-        elif option == 1:
-            area = self.capture_area(True)
-            self.list_of_planting[_id]["area"] = area
-        elif option == 2:
-            amount = self.capture_amount(True)
-            self.list_of_planting[_id]["amount"] = amount
-        elif option == 3:
-            date = self.capture_date(True)
-            self.list_of_planting[_id]["date"] = date
+        self.list_of_planting[_id]["culture"] = culture
+        self.list_of_planting[_id]["area"] = area
+        self.list_of_planting[_id]["amount"] = amount
+        self.list_of_planting[_id]["date"] = date
 
         # And now the planting's data will be on the JSON file:
-        if self.save() == 0:
-            print("Plantio editado com sucesso!")
+        self.save()
 
     def delete_planting(self, _id):
         """

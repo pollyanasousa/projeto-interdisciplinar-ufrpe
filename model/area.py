@@ -81,9 +81,11 @@ class Area:
         # And now the area's data will be on the JSON file:
         self.save()
 
-    def update_area(self, _id):
+    def update_area(self, _id, name):
         """
         It updates an existing area whose id is given as argument. Besides, through the given list_of_planting, this function returns the ids of list_of_planting that need to be updated to receive the new area modification.
+        
+        Argument name is the new desired name.
         """
 
         if _id < 0 or _id >= len(self.list_of_area):
@@ -92,7 +94,7 @@ class Area:
 
         old_name = self.list_of_area[_id]["name"]
 
-        new_name = self.capture_name(True)
+        new_name = name
         self.list_of_area[_id]["name"] = new_name
 
         for planting in self.planting.list_of_planting:
@@ -100,8 +102,7 @@ class Area:
                 planting["area"] = new_name
 
         # And now the area's data will be on the JSON file:
-        if self.save() == 0:
-            print("Área editada com sucesso!")
+        self.save()
 
     def delete_area(self, _id):
         """

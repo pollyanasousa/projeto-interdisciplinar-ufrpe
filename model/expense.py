@@ -72,34 +72,22 @@ class Expense:
 
         self.save()
 
-    def update_expense(self, _id):
+    def update_expense(self, _id, _type, value, date):
         """
         It updates an existing expense whose id is given as argument.
+        _type, value and date are the new data.
         """
 
         if _id < 0 or _id >= len(self.list_of_expenses):
             print("Número de identificação inválido!")
             return
 
-        print("Qual atributo você deseja alterar?")
-        option = show_menu(["Tipo de gasto", "Valor", "Data"])
-
-        if option == 0:
-            _type = self.capture_type(True)
-            self.list_of_expenses[_id]["type"] = _type
-        elif option == 1:
-            value = self.capture_value(True)
-            self.list_of_expenses[_id]["value"] = value
-        elif option == 2:
-            amount = self.capture_amount(True)
-            self.list_of_expenses[_id]["amount"] = amount
-        elif option == 3:
-            date = self.capture_date(True)
-            self.list_of_expenses[_id]["date"] = date
+        self.list_of_expenses[_id]["type"] = _type
+        self.list_of_expenses[_id]["value"] = value
+        self.list_of_expenses[_id]["date"] = date
 
         # And now the expenses's data will be on the JSON file:
-        if self.save() == 0:
-            print("Gasto editado com sucesso!")
+        self.save()
 
     def delete_expense(self, _id):
         """
