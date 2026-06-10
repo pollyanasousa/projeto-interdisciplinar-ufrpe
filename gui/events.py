@@ -157,7 +157,7 @@ class Events:
             self.window.farmer.expense.new_expense(data[0], data[1], data[2])
             self.window.farmer.save()
 
-            self.expense()
+            self.expenses()
         else:
             self.dialog.error_dialog("Erro ao adicionar gasto! Verifique os dados digitados.")
 
@@ -195,7 +195,7 @@ class Events:
             self.window.farmer.area.new_area(data[0])
             self.window.farmer.save()
 
-            self.area()
+            self.areas()
         else:
             self.dialog.error_dialog("Erro ao adicionar área! Verifique os dados digitados.")
 
