@@ -92,28 +92,29 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(7)
 
     def expenses(self):
-        for _id, expense in enumerate(self.window.farmer.expense.list_of_expenses):
-            self.window.expenses_screen.expense_listwidget.addItem(expense)
+        for expense in self.window.farmer.expense.list_of_expenses:
+            text = f"{expense['type']} | {expense['value']} | {expense['date']}"
+            self.window.expenses_screen.expense_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(8)
 
     def areas(self):
-        for _id, area in enumerate(self.window.farmer.area.list_of_area):
-            text = f"area{'name'}"
+        for area in self.window.farmer.area.list_of_area:
+            text = f"{area['name']}"
             self.window.areas_screen.area_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(9)
 
     def planting(self):
-        for _id, planting in enumerate(self.window.farmer.planting.list_of_planting):
+        for planting in self.window.farmer.planting.list_of_planting:
             text = f"planting{'culture'} | planting{'amount'} | planting{'date'}"
             self.window.planting_screen.planting_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(10)
 
     def harvest(self):
-        for _id, harvest in enumerate(self.window.farmer.harvest.list_of_harvest):
-            text = f"harvest{'culture'} | harvest{'amount'} | harvest{'date'}"
+        for harvest in self.window.farmer.harvest.show_harvest():
+            text = f"{harvest['culture']} | {harvest['amount']} | {harvest['date']}"
             self.window.harvests_screen.harvest_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(11)
@@ -144,11 +145,11 @@ class Events:
         if data:
             text = f"Gasto: {data[0]} | Valor: {data[1]} | Data: {data[2]}"
 
-            self.window.expenses_screen.expense_listwidget.addItem(text)
 
-            #self.window.farmer.expense.new_expense()
-
+            self.window.farmer.expense.new_expense(data[0], data[1], data[2])
             self.window.farmer.save()
+
+            self.expense()
         else:
             self.dialog.error_dialog("Erro ao adicionar gasto! Verifique os dados digitados.")
 
@@ -183,11 +184,10 @@ class Events:
         if data:
             text = f"Área: {data[0]}"
 
-            self.window.areas_screen.area_listwidget.addItem(text)
-
-            #self.window.farmer.area.new_area()
-
+            self.window.farmer.area.new_area(data[0])
             self.window.farmer.save()
+
+            self.area()
         else:
             self.dialog.error_dialog("Erro ao adicionar área! Verifique os dados digitados.")
 
@@ -222,11 +222,10 @@ class Events:
         if data:
             text = f"Cultura: {data[0]} | Área: {data[1]} | Quantidade: {data[2]}"
 
-            self.window.planting_screen.planting_listwidget.addItem(text)
-
-            #self.window.farmer.planting.new_planting()
-
+            self.window.farmer.planting.new_planting(data[0], data[1], data[2])
             self.window.farmer.save()
+
+            self.planting()
         else:
             self.dialog.error_dialog("Erro ao adicionar plantio! Verifique os dados digitados.")
 
@@ -261,11 +260,10 @@ class Events:
         if data:
             text = f"Cultura: {data[0]} | Quantidade: {data[1]} | Data: {data[2]}"
 
-            self.window.harvests_screen.harvest_listwidget.addItem(text)
-
-            #self.window.farmer.harvest.new_harvest()
-
+            self.window.farmer.harvest.new_harvest(data[0], data[1], data[2])
             self.window.farmer.save()
+
+            self.harvest()
         else:
             self.dialog.error_dialog("Erro ao adicionar colheita! Verifique os dados digitados.")
 
