@@ -40,6 +40,20 @@ QPushButton{
 	padding:9px;
 }
 
+QPushButton#new_area_button{
+	background-color:rgb(50, 90, 168);
+}
+
+QPushButton#update_area_button{
+	background-color:rgb(174, 176, 44);
+	margin-bottom:50px;
+}
+
+QPushButton#delete_area_button{
+	background-color:rgb(176, 73, 44);
+	margin-bottom:50px;
+}
+
 QPushButton:hover{
 	background-color:#003619;
 }

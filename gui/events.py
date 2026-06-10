@@ -247,7 +247,7 @@ class Events:
             self.planting()
 
     def update_planting(self):
-        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)"], [is_valid_name, is_valid_name, lambda name: is_valid_name(name, True)])
+        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)", "Data"], [is_valid_name, lambda name: is_valid_name(name, True), lambda name: is_valid_name(name, True), is_valid_date])
 
         if data:
             line = line = self.window.planting_screen.planting_listwidget.currentRow()
@@ -285,7 +285,7 @@ class Events:
             self.harvest()
 
     def update_harvest(self):
-        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(True), is_valid_date])
+        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(name, True), is_valid_date])
 
         if data:
             line = self.window.harvests_screen.harvest_listwidget.currentRow()
