@@ -153,7 +153,6 @@ class Events:
         if data:
             text = f"Gasto: {data[0]} | Valor: {data[1]} | Data: {data[2]}"
 
-
             self.window.farmer.expense.new_expense(data[0], data[1], data[2])
             self.window.farmer.save()
 
@@ -163,11 +162,12 @@ class Events:
 
     def delete_expense(self):
         if self.dialog.yes_or_no_dialog("Deseja remover o gasto selecionado?"):
-            self.window.expenses_screen.expense_listwidget.removeItem(selectedId)
+            line = self.window.expenses_screen.expense_listwidget.currentRow()
 
-            self.window.farmer.expense.delete_expense()
-
+            self.window.farmer.expense.delete_expense(line)
             self.window.farmer.save()
+
+            self.expenses()
 
     def update_expense(self):
         data = self.dialog.form_dialog(["Tipo de gasto (exemplo: adubo, transporte, mão de obra)", "Valor do gasto (exemplo: 100 reais)", "Data do gasto"], [is_valid_name, lambda name: is_valid_name(name, allow_numbers=True), is_valid_date])
@@ -201,11 +201,12 @@ class Events:
 
     def delete_area(self):
         if self.dialog.yes_or_no_dialog("Deseja remover a área selecionada?"):
-            self.window.area_screen.area_listwidget.removeItem(selectedId)
+            line = self.window.expenses_screen.expense_listwidget.currentRow()
 
-            #self.window.farmer.area.delete_area()
-
+            self.window.farmer.area.delete_area(line)
             self.window.farmer.save()
+
+            self.areas()
 
     def update_area(self):
         data = self.dialog.form_dialog(["Nome da área (exemplo: roçado do fundo, terra perto do rio)"], [is_valid_name])
@@ -239,11 +240,12 @@ class Events:
 
     def delete_planting(self):
         if self.dialog.yes_or_no_dialog("Deseja remover o plantio selecionado?"):
-            self.window.planting_screen.expense_listwidget.removeItem(selectedId)
+            line = line = self.window.planting_screen.planting_listwidget.currentRow()
 
-            #self.window.farmer.planting.delete_planting()
-
+            self.window.farmer.planting.delete_planting(line)
             self.window.farmer.save()
+
+            self.planting()
 
     def update_planting(self):
         data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)"], [is_valid_name, is_valid_name, lambda name: is_valid_name(name, True)])
@@ -277,11 +279,12 @@ class Events:
 
     def delete_harvest(self):
         if self.dialog.yes_or_no_dialog("Deseja remover a colheita selecionada?"):
-            self.window.harvests_screen.harvest_listwidget.removeItem(selectedId)
+            line = self.window.harvests_screen.harvest_listwidget.currentRow()
 
-            #self.window.farmer.harvest.delete_harvest()
-
+            self.window.farmer.harvest.delete_harvest(line)
             self.window.farmer.save()
+
+            self.harvest()
 
     def update_harvest(self):
         data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(True), is_valid_date])
