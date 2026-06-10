@@ -92,13 +92,17 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(7)
 
     def expenses(self):
+        self.window.expenses_screen.expense_listwidget.clear()
+
         for expense in self.window.farmer.expense.list_of_expenses:
-            text = f"{expense['type']} | {expense['value']} | {expense['date']}"
+            text = f"Tipo: {expense['type']} | Valor: {expense['value']} | Data: {expense['date']}"
             self.window.expenses_screen.expense_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(8)
 
     def areas(self):
+        self.window.areas_screen.area_listwidget.clear()
+
         for area in self.window.farmer.area.list_of_area:
             text = f"{area['name']}"
             self.window.areas_screen.area_listwidget.addItem(text)
@@ -106,15 +110,19 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(9)
 
     def planting(self):
+        self.window.planting_screen.planting_listwidget.clear()
+
         for planting in self.window.farmer.planting.list_of_planting:
-            text = f"planting{'culture'} | planting{'amount'} | planting{'date'}"
+            text = f"Cultura: {planting['culture']} | Área: {planting['area']} | Quantidade: {planting['amount']} | Data: {planting['date']} "
             self.window.planting_screen.planting_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(10)
 
     def harvest(self):
-        for harvest in self.window.farmer.harvest.show_harvest():
-            text = f"{harvest['culture']} | {harvest['amount']} | {harvest['date']}"
+        self.window.harvests_screen.harvest_listwidget.clear()
+
+        for harvest in self.window.farmer.harvest.list_of_harvest:
+            text = f"Cultura: {harvest['culture']} | Quantidade: {harvest['amount']} | Data: {harvest['date']}"
             self.window.harvests_screen.harvest_listwidget.addItem(text)
 
         self.window.stacked_widget.setCurrentIndex(11)
@@ -217,12 +225,12 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(6)
 
     def new_planting(self):
-        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)"], [is_valid_name, is_valid_name, lambda name: is_valid_name(name, True)])
+        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Área da cultura", "Quantidade da cultura (exemplo: 3 sacos, 2 caixas)", "Data"], [is_valid_name, lambda name: is_valid_name(name, True), lambda name: is_valid_name(name, True), is_valid_date])
 
         if data:
-            text = f"Cultura: {data[0]} | Área: {data[1]} | Quantidade: {data[2]}"
+            text = f"Cultura: {data[0]} | Área: {data[1]} | Quantidade: {data[2]} | Data: {data[3]}"
 
-            self.window.farmer.planting.new_planting(data[0], data[1], data[2])
+            self.window.farmer.planting.new_planting(data[0], data[1], data[2], data[3])
             self.window.farmer.save()
 
             self.planting()
@@ -255,7 +263,7 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(6)
 
     def new_harvest(self):
-        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(True), is_valid_date])
+        data = self.dialog.form_dialog(["Nome da cultura (exemplo: milho, feijão, mandioca)", "Quantidade da colheita (exemplo: 10 sacos, 5 caixas)", "Data da colheita"], [is_valid_name, lambda name: is_valid_name(name, True), is_valid_date])
 
         if data:
             text = f"Cultura: {data[0]} | Quantidade: {data[1]} | Data: {data[2]}"
