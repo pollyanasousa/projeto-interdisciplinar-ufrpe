@@ -88,6 +88,7 @@ class Events:
         self.window.my_data_screen.phone_lineedit.setText(self.window.farmer.phone_number)
         self.window.my_data_screen.town_lineedit.setText(self.window.farmer.town)
         self.window.my_data_screen.state_combobox.addItems(list_of_states)
+        self.window.my_data_screen.state_combobox.setCurrentText(self.window.farmer.state)
 
         self.window.stacked_widget.setCurrentIndex(7)
 
