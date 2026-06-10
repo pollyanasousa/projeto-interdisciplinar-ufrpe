@@ -1,6 +1,7 @@
+import os
 from random import randint
 
-#from twilio.rest import Client
+from twilio.rest import Client
 
 
 class SMSSender:
@@ -24,16 +25,14 @@ class SMSSender:
 
         print(f"Seu código do AgroBook: {self.code}")
 
-        """
-        account_sid = 'our_account_sid'
-        auth_token = 'our_auth_token'
+        account_sid = os.getenv("ACCOUNT_SID")
+        auth_token = os.getenv("AUTH_TOKEN")
         client = Client(account_sid, auth_token)
 
         message = client.messages.create(
             body=f'Seu código do AgroBook: {self.code}',
-            from_='+12345678901', # Our phone number in Twilio
+            from_='+15054374232', # Our phone number in Twilio
             to=phone_number   # Farmer's phone number
         )
 
         print(message.sid)
-        """
