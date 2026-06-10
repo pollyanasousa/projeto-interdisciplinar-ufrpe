@@ -44,6 +44,18 @@ QPushButton:hover{
 	background-color:#003619;
 }
 
+QPushButton#new_expense_button{
+	background-color:rgb(50, 90, 168);
+}
+QPushButton#update_expense_button{
+	background-color:rgb(174, 176, 44);
+	margin-bottom:50px;
+}
+QPushButton#delete_expense_button{
+	background-color:rgb(176, 73, 44);
+	margin-bottom:50px;
+}
+
 QLineEdit{
 	border: 1px solid #D2813A;
 	color: #1E1E1E;
