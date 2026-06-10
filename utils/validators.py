@@ -83,5 +83,12 @@ def is_valid_date(date):
 
 	pattern = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$"
 
-	return re.fullmatch(pattern, date) and datetime.strptime(date, "%d/%m/%Y")
+	if not re.fullmatch(pattern, date):
+		return False
+	
+	try:
+		datetime.strptime(date, "%d/%m/%Y")
+		return True
+	except ValueError:
+		return False
 

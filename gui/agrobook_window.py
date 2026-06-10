@@ -114,5 +114,8 @@ class AgroBookWindow(QMainWindow):
         self.expenses_screen.done_button.clicked.connect(self.events.process_expenses)
         self.expenses_screen.new_expense_button.clicked.connect(self.events.new_expense)
         self.areas_screen.done_button.clicked.connect(self.events.process_areas)
+        self.areas_screen.new_area_button.clicked.connect(self.events.new_area)
         self.planting_screen.done_button.clicked.connect(self.events.process_planting)
+        self.planting_screen.new_planting_button.clicked.connect(self.events.new_planting)
         self.harvests_screen.done_button.clicked.connect(self.events.process_harvests)
+        self.harvests_screen.new_harvest_button.clicked.connect(self.events.new_harvest)
