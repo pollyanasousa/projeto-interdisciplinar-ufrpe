@@ -99,18 +99,25 @@ QLabel#message_label{
     <widget class="QListWidget" name="planting_listwidget"/>
    </item>
    <item>
+    <widget class="QPushButton" name="new_planting_button">
+     <property name="text">
+      <string>Novo plantio</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="new_planting_button">
+      <widget class="QPushButton" name="update_planting_button">
        <property name="text">
-        <string>Novo plantio</string>
+        <string>Editar plantio</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="delete_planting_button">
        <property name="text">
-        <string>Remover plantio</string>
+        <string>Deletar plantio</string>
        </property>
       </widget>
      </item>

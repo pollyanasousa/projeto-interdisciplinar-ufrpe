@@ -99,18 +99,25 @@ QLabel#message_label{
     <widget class="QListWidget" name="harvest_listwidget"/>
    </item>
    <item>
+    <widget class="QPushButton" name="new_harvest_button">
+     <property name="text">
+      <string>Nova colheita</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="new_harvest_button">
+      <widget class="QPushButton" name="update_harvest_button">
        <property name="text">
-        <string>Nova colheita</string>
+        <string>Editar colheita</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="delete_harvest_button">
        <property name="text">
-        <string>Remover colheita</string>
+        <string>Deletar colheita</string>
        </property>
       </widget>
      </item>

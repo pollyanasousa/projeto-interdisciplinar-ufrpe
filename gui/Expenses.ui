@@ -99,18 +99,25 @@ QLabel#message_label{
     <widget class="QListWidget" name="expense_listwidget"/>
    </item>
    <item>
+    <widget class="QPushButton" name="new_expense_button">
+     <property name="text">
+      <string>Novo gasto</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="new_expense_button">
+      <widget class="QPushButton" name="update_expense_button">
        <property name="text">
-        <string>Novo gasto</string>
+        <string>Editar gasto</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="delete_expense_button">
        <property name="text">
-        <string>Remover gasto</string>
+        <string>Deletar gasto</string>
        </property>
       </widget>
      </item>

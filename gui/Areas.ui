@@ -99,18 +99,25 @@ QLabel#message_label{
     <widget class="QListWidget" name="area_listwidget"/>
    </item>
    <item>
+    <widget class="QPushButton" name="new_area_button">
+     <property name="text">
+      <string>Nova área</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="new_area_button">
+      <widget class="QPushButton" name="update_area_button">
        <property name="text">
-        <string>Nova área</string>
+        <string>Editar área</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="delete_area_button">
        <property name="text">
-        <string>Remover área</string>
+        <string>Deletar área</string>
        </property>
       </widget>
      </item>
