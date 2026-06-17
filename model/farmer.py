@@ -5,11 +5,9 @@ from model.planting import *
 from model.harvest import *
 from model.expense import *
 from model.report import *
-from model.measures import Measures
 from model.coowners import CoOwners
 
 from utils.validators import *
-from utils.textprocessor import *
 
 class Farmer:
     def __init__(self, farmerfile):
@@ -33,7 +31,6 @@ class Farmer:
         self.harvest = Harvest("data/harvest.json")
         self.expense = Expense("data/expense.json")
         self.report = Report(self, self.area, self.planting, self.harvest, self.expense)
-        self.measures = Measures("data/measures.json")
         self.coowners = CoOwners("data/coowners.json")
 
     def read(self, mute=False):
@@ -60,7 +57,6 @@ class Farmer:
             self.planting.read()
             self.harvest.read()
             self.expense.read()
-            self.measures.read(mute=True)
             self.coowners.read(mute=True)
 
             return 0

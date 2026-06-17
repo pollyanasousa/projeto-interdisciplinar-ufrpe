@@ -8,7 +8,7 @@
   <property name="windowTitle"><string>Form</string></property>
   <property name="styleSheet">
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
-QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 17px; border-radius: 12px; padding: 13px; border: none; }
+QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QPushButton#new_area_button { background-color: #2563C0; }
 QPushButton#update_area_button { background-color: #8a8e10; }

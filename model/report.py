@@ -1,6 +1,23 @@
 import os
+import re
 import webbrowser
 from datetime import datetime
+
+
+def _fmt_name(name: str) -> str:
+    """Iniciais maiúsculas, ignora preposições."""
+    preps = {"de", "da", "do", "das", "dos", "e"}
+    return " ".join(
+        w.capitalize() if w.lower() not in preps else w.lower()
+        for w in name.strip().split()
+    )
+
+def _fmt_cpf(cpf: str) -> str:
+    """Formata CPF: 05072207498 → 050.722.074-98"""
+    digits = re.sub(r"\D", "", str(cpf))
+    if len(digits) == 11:
+        return f"{digits[:3]}.{digits[3:6]}.{digits[6:9]}-{digits[9:]}"
+    return cpf  # devolve original se não tiver 11 dígitos
 
 
 class Report:
@@ -33,8 +50,8 @@ class Report:
                 share = c.get("share_pct", "")
                 share_display = f"{share}%" if share else "—"
                 rows += f"""<tr>
-                    <td>{c['name']}</td>
-                    <td>{c['cpf']}</td>
+                    <td>{_fmt_name(c['name'])}</td>
+                    <td>{_fmt_cpf(c['cpf'])}</td>
                     <td>{c['role']}</td>
                     <td>{share_display}</td>
                 </tr>\n"""
@@ -59,8 +76,8 @@ class Report:
             canonical = p.get("amount_canonical", p["amount"])
             display = p["amount"] if p["amount"] == canonical else f"{p['amount']} <small>({canonical})</small>"
             planting_html += f"""<tr>
-                <td>{p['culture']}</td>
-                <td>{p['area']}</td>
+                <td>{_fmt_name(p['culture'])}</td>
+                <td>{_fmt_name(p['area'])}</td>
                 <td>{display}</td>
                 <td>{p['date']}</td>
             </tr>\n"""
@@ -71,7 +88,7 @@ class Report:
             canonical = h.get("amount_canonical", h["amount"])
             display = h["amount"] if h["amount"] == canonical else f"{h['amount']} <small>({canonical})</small>"
             harvest_html += f"""<tr>
-                <td>{h['culture']}</td>
+                <td>{_fmt_name(h['culture'])}</td>
                 <td>{display}</td>
                 <td>{h['date']}</td>
             </tr>\n"""
@@ -125,8 +142,8 @@ class Report:
 
     <h2>Dados do Agricultor</h2>
     <div class="farmer-grid">
-        <p><span class="label">Nome:</span> {self.farmer.name}</p>
-        <p><span class="label">CPF:</span> {self.farmer.cpf}</p>
+        <p><span class="label">Nome:</span> {_fmt_name(self.farmer.name)}</p>
+        <p><span class="label">CPF:</span> {_fmt_cpf(self.farmer.cpf)}</p>
         <p><span class="label">Telefone:</span> {self.farmer.phone_number}</p>
         <p><span class="label">Cidade:</span> {self.farmer.town}</p>
         <p><span class="label">Estado:</span> {self.farmer.state}</p>

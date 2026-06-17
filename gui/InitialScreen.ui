@@ -27,7 +27,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
-QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 20px; border-radius: 12px; padding: 14px; border: none; }
+QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QPushButton#login_button { background-color: transparent; color: #124831; border: 2px solid #124831; font-size: 17px; }
 QPushButton#login_button:hover { background-color: #d0e8d4; }
@@ -93,10 +93,10 @@ QLabel#presentation_label, QLabel#i_have_account_label { font-family: &quot;Robo
        <property name="text">
         <string>Começar agora</string>
        </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../.designer/backup/images/leaves-icon.png</normaloff>../../.designer/backup/images/leaves-icon.png</iconset>
-       </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>gui/images/leaves-icon.png</normaloff>gui/images/leaves-icon.png</iconset>
+        </property>
       </widget>
      </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">

@@ -8,7 +8,7 @@
   <property name="windowTitle"><string>Form</string></property>
   <property name="styleSheet">
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
-QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 17px; border-radius: 12px; padding: 13px; border: none; }
+QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QPushButton#interpret_button { background-color: #2563C0; }
 QPushButton#clear_button { background-color: #b03020; }
@@ -49,9 +49,8 @@ QListWidget::item { padding: 8px; border-bottom: 1px solid #e8f0e9; }</string>
      <property name="wordWrap"><bool>true</bool></property>
     </widget>
    </item>
-   <item>
-    <widget class="QLabel" name="sub_label_hist">
-     <property name="objectName"><string>sub_label</string></property>
+    <item>
+     <widget class="QLabel" name="sub_label_hist">
      <property name="text"><string>Histórico de interpretações:</string></property>
     </widget>
    </item>

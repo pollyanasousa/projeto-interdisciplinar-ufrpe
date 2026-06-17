@@ -35,9 +35,9 @@
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
 QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
-QLineEdit { border: 2px solid #D2813A; color: #1E1E1E; background-color: #FFFFFF; border-radius: 12px; font-size: 16px; padding: 9px 12px; }
+QLineEdit { border: 2px solid #D2813A; color: #1E1E1E; background-color: #FFFFFF; border-radius: 12px; font-size: 18px; padding: 10px 14px; }
 QLineEdit:focus { border-color: #124831; }
-QComboBox { border: 2px solid #D2813A; background-color: #FFFFFF; color: #1E1E1E; border-radius: 12px; font-size: 15px; padding: 8px 12px; }
+QComboBox { border: 2px solid #D2813A; background-color: #FFFFFF; color: #1E1E1E; border-radius: 12px; font-size: 16px; padding: 9px 12px; }
 QLabel#main_label { font-family: &quot;Roboto Flex&quot;; font-weight: 800; font-size: 26px; color: #124831; }
 QLabel { font-size: 13px; color: #7C5A3C; font-weight: 600; }</string>
   </property>
@@ -59,6 +59,12 @@ QLabel { font-size: 13px; color: #7C5A3C; font-weight: 600; }</string>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="name_label">
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Nome</string>
        </property>
@@ -73,6 +79,12 @@ QLabel { font-size: 13px; color: #7C5A3C; font-weight: 600; }</string>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="cpf_label">
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>CPF</string>
        </property>
@@ -87,6 +99,12 @@ QLabel { font-size: 13px; color: #7C5A3C; font-weight: 600; }</string>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QLabel" name="phone_label">
+       <property name="minimumSize">
+        <size>
+         <width>70</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Telefone</string>
        </property>
@@ -97,30 +115,46 @@ QLabel { font-size: 13px; color: #7C5A3C; font-weight: 600; }</string>
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="town_label">
-       <property name="text">
-        <string>Cidade</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="town_lineedit"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="state_label">
-       <property name="text">
-        <string>Estado</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="state_combobox"/>
-     </item>
-    </layout>
-   </item>
+    <item>
+     <layout class="QHBoxLayout" name="town_row">
+      <item>
+       <widget class="QLabel" name="town_label">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Cidade</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="town_lineedit"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="state_row">
+      <item>
+       <widget class="QLabel" name="state_label">
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Estado</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="state_combobox"/>
+      </item>
+     </layout>
+    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>

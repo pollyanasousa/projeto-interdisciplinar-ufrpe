@@ -8,12 +8,12 @@
   <property name="windowTitle"><string>Form</string></property>
   <property name="styleSheet">
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
-QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 17px; border-radius: 12px; padding: 13px; border: none; }
+QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QPushButton#new_coowner_button { background-color: #2563C0; }
 QPushButton#update_coowner_button { background-color: #8a8e10; }
 QPushButton#delete_coowner_button { background-color: #b03020; }
-QLabel#main_label { font-family: &quot;Roboto Flex&quot;; font-weight: 800; font-size: 24px; color: #124831; }
+QLabel#main_label { font-family: &quot;Roboto Flex&quot;; font-weight: 800; font-size: 20px; color: #124831; }
 QLabel#sub_label { font-size: 13px; color: #7C5A3C; }
 QListWidget { background-color: #FFFFFF; border: 1.5px solid #c8ddc9; border-radius: 12px; font-size: 14px; padding: 4px; }
 QListWidget::item { padding: 10px 8px; border-bottom: 1px solid #e8f0e9; }
@@ -22,7 +22,7 @@ QListWidget::item:selected { background-color: #D6E6D4; color: #124831; border-r
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="main_label">
-     <property name="text"><string>Proprietários e Herdeiros</string></property>
+     <property name="text"><string>Coproprietários e Herdeiros</string></property>
     </widget>
    </item>
    <item>

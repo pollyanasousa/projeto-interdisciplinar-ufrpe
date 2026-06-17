@@ -22,6 +22,7 @@ import os
 import sys
 
 from PyQt6.QtWidgets import QApplication
+from PyQt6.QtGui import QIcon
 
 from gui import agrobook_window
 from model.farmer import Farmer
@@ -56,10 +57,6 @@ if __name__ == "__main__":
 		with open("data/coowners.json", "w", encoding="utf-8") as f:
 			json.dump({"list_of_coowners": []}, f)
 
-	if not os.path.exists("data/measures.json"):
-		with open("data/measures.json", "w", encoding="utf-8") as f:
-			json.dump({"history": []}, f)
-
 	# We start with our farmer, the protagonist:
 	farmer = Farmer("data/farmer.json")
 
@@ -68,12 +65,22 @@ if __name__ == "__main__":
 	"""
 
 	app = QApplication(sys.argv)
-	gui = agrobook_window.AgroBookWindow(farmer)
 
-	# If the farmer is already registered (data exists and was loaded successfully),
-	# skip the initial screen and go straight to the home screen.
+	# ── Cria a janela principal ──────────────────────────────────────────────
+	# AgroBookWindow gerencia:
+	#   - 1 QStackedWidget com 15 telas (0=Initial, 14=SignupCoOwners)
+	#   - Moldura verde simulando celular, centralizada na tela
+	#   - Fundo verde escuro (#0d3320) cobre toda a área maximizada
+	#   - Botões de microfone injetados nas telas de cadastro (RF011)
+	#   - Eventos conectados aos cliques (Events)
+	gui = agrobook_window.AgroBookWindow(farmer)
+	gui.setWindowIcon(QIcon("gui/images/leaves-icon.ico"))
+
+	# Se o agricultor já está cadastrado, pula a tela inicial
 	if farmer_loaded == 0 and farmer.phone_number:
 		gui.stacked_widget.setCurrentIndex(6)
 
-	gui.show()
+	# Maximiza para que o fundo verde cubra toda a tela,
+	# independente da resolução do monitor
+	gui.showMaximized()
 	sys.exit(app.exec())

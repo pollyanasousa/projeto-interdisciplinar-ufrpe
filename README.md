@@ -6,7 +6,7 @@
 
 <img src="https://img.shields.io/badge/Python-3.11-2E7D32?style=for-the-badge&logo=python&logoColor=white"/>
 <img src="https://img.shields.io/badge/PyQt6-GUI-1565C0?style=for-the-badge&logo=qt&logoColor=white"/>
-<img src="https://img.shields.io/badge/Status-Release%202-4CAF50?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Status-Release%203-4CAF50?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/UFRPE-PISI1-795548?style=for-the-badge"/>
 <img src="https://img.shields.io/badge/Agronomia-Agrobook-8D6E63?style=for-the-badge"/>
 
@@ -124,11 +124,62 @@ Grande salto em relação à VA1: o terminal foi **completamente substituído po
 
 ---
 
-### 🔵 v3.0 — Release 3 (VA3) · em desenvolvimento
+### 🟢 v3.0 — Release 3 (VA3) · entregue em 16/06/2026
 
-| Requisito | Descrição | Status |
-|-----------|-----------|--------|
-| RF011 | Inserção de dados por voz | 🔄 A fazer |
+A VA3 adiciona **entrada de dados por voz** e substitui o parser de regex da VA2 por um LLM, permitindo que o agricultor fale naturalmente — inclusive em linguagem coloquial nordestina — e tenha os campos preenchidos automaticamente.
+
+| Requisito | Descrição |
+|-----------|-----------|
+| RF011 | Entrada por voz: gravação com `sounddevice`, transcrição com Whisper (Groq) e interpretação semântica com `llama-3.3-70b` |
+| RF012 | Tratamento de medidas e datas via LLM: substitui o regex fixo da VA2, cobrindo variações que o regex não entendia (`"ontonte"`, `"duas arroba e meia"`, `"oxxi é mio"`) |
+
+**Pipeline de voz (RF011):**
+```
+Microfone → sounddevice (16 kHz) → Whisper whisper-large-v3-turbo → llama-3.3-70b → campos preenchidos
+```
+
+O botão de microfone é injetado ao lado de cada campo de texto pela `agrobook_window.py` e implementado como widget reutilizável em `utils/voice_widget.py` (princípio DRY). A gravação roda em `QThread` separada para não travar a interface.
+
+**Comparação VA2 × VA3 no tratamento de linguagem (RF012):**
+
+| Entrada do agricultor | VA2 (regex) | VA3 (LLM) |
+|-----------------------|-------------|-----------|
+| `"ontem"` | ✅ | ✅ |
+| `"ontonte"` | ❌ | ✅ 2 dias atrás |
+| `"faz uns três dias"` | ❌ | ✅ 3 dias atrás |
+| `"3 sacos"` | ✅ 180 kg | ✅ 180 kg |
+| `"duas arroba e meia"` | ❌ | ✅ 37,5 kg |
+| `"oxxi é mio"` | ❌ | ✅ milho |
+
+**Exemplo prático:**
+```
+Agricultor fala: "três sacos de milho no roçado de fundo semana passada"
+
+LLM interpreta → {
+  "tipo": "plantio",
+  "cultura": "milho",
+  "quantidade_original": "3 sacos",
+  "quantidade_canonical": "180.0 kg",
+  "data": "09/06/2026",
+  "area": "roçado de fundo"
+}
+```
+
+**Novos arquivos adicionados na VA3:**
+
+| Arquivo | Função |
+|---------|--------|
+| `utils/voice_input.py` | Gravação do microfone + transcrição Whisper |
+| `utils/voice_widget.py` | Botão de microfone reutilizável (`QThread`) |
+| `utils/llm_parser.py` | Interpretação semântica da fala completa |
+| `utils/llm_normalizer.py` | Normalização de campos individuais (fallback) |
+
+**Novas dependências:** `groq sounddevice soundfile numpy`
+
+**Nova variável no `.env`:**
+```env
+GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
 
 ---
 
@@ -138,13 +189,15 @@ Grande salto em relação à VA1: o terminal foi **completamente substituído po
 projeto-interdisciplinar-ufrpe/
 │
 ├── main.py                    ← porta de entrada; inicializa os JSONs e sobe a janela Qt
-├── .env                       ← credenciais Twilio (não versionar em produção)
+├── .env                       ← credenciais Twilio e Groq (não versionar em produção)
+├── RelatorioDeSafra.html      ← último relatório gerado pelo sistema
 │
 ├── gui/                       ← camada de apresentação (View + Controller)
-│   ├── agrobook_window.py     ← janela principal; carrega as telas .ui e conecta os eventos
+│   ├── agrobook_window.py     ← janela principal; carrega as telas .ui, conecta eventos
+│   │                             e injeta botões de microfone nas telas (RF011)
 │   ├── events.py              ← controlador; toda lógica de resposta a cliques da UI
-│   ├── dialog.py              ← diálogos reutilizáveis (erro, confirmação, formulários)
-│   ├── *.ui                   ← 15 layouts XML criados no Qt Designer (uma tela por arquivo)
+│   ├── dialog.py              ← diálogos reutilizáveis (erro, confirmação, formulários por voz)
+│   ├── *.ui                   ← 16 layouts XML criados no Qt Designer (uma tela por arquivo)
 │   └── images/                ← ícones e logotipo do sistema
 │
 ├── model/                     ← camada de dados (cada entidade lê e escreve seu próprio JSON)
@@ -154,15 +207,16 @@ projeto-interdisciplinar-ufrpe/
 │   ├── harvest.py             ← registros de colheita
 │   ├── expense.py             ← gastos por cultura
 │   ├── coowners.py            ← multiproprietários e herdeiros (RF009)
-│   ├── measures.py            ← wrapper do parser de linguagem natural (RF008)
 │   └── report.py              ← geração do relatório HTML da safra
 │
 ├── utils/                     ← serviços transversais
 │   ├── validators.py          ← validação matemática de CPF, telefone, datas e nomes
-│   ├── language_parser.py     ← RF008: converte datas e medidas coloquiais para padrão
 │   ├── sms_sender.py          ← RF010: envio de código de verificação via Twilio
-│   ├── textprocessor.py       ← capitalização de nomes respeitando preposições
-│   └── states.py              ← lista dos 27 estados brasileiros para o combobox
+│   ├── states.py              ← lista dos 27 estados brasileiros para o combobox
+│   ├── voice_input.py         ← RF011: gravação do microfone + transcrição Whisper (Groq)
+│   ├── voice_widget.py        ← RF011: botão de microfone reutilizável com QThread
+│   ├── llm_parser.py          ← RF011/RF012: interpretação semântica da fala via LLM
+│   └── llm_normalizer.py      ← RF012: normalização de datas e medidas individuais (fallback)
 │
 ├── data/                      ← criada automaticamente; armazena os JSONs do usuário
 │   ├── farmer.json
@@ -170,12 +224,12 @@ projeto-interdisciplinar-ufrpe/
 │   ├── planting.json
 │   ├── harvest.json
 │   ├── expense.json
-│   ├── coowners.json
-│   └── measures.json
+│   └── coowners.json
 │
-└── doc/                       ← documentação e capturas de tela
+└── doc/                       ← documentação 
     ├── banner-agrobook.jpeg
-    ├── planilha_funcionalidades_agrobook.xlsx
+    ├── Acompanhamento de Projetos.xlsx
+    ├── Template_Artigos_SBGames__SOL_SBC_.pdf
     └── *.png
 ```
 

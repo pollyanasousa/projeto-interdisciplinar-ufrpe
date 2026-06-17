@@ -1,7 +1,6 @@
 import json
 
 from utils.validators import *
-from utils.textprocessor import *
 
 class Area:
     def __init__(self, areafile):

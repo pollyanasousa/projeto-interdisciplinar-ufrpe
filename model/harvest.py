@@ -1,8 +1,7 @@
 import json
 
 from utils.validators import *
-from utils.textprocessor import *
-from utils.language_parser import parse_date, normalize_amount
+from utils.llm_normalizer import normalize_date, normalize_amount
 
 class Harvest:
     def __init__(self, harvestfile):
@@ -69,7 +68,7 @@ class Harvest:
         It adds a new harvest, and culture, amount and date are the arguments.
         Date and amount are auto-normalized from farmer natural language.
         """
-        date_norm, date_ok = parse_date(date)
+        date_norm, date_ok = normalize_date(date)
         if date_ok:
             date = date_norm
         original_amount, canonical_amount = normalize_amount(amount)
@@ -89,7 +88,7 @@ class Harvest:
             print("Número de identificação inválido!")
             return
 
-        date_norm, date_ok = parse_date(date)
+        date_norm, date_ok = normalize_date(date)
         if date_ok:
             date = date_norm
         original_amount, canonical_amount = normalize_amount(amount)

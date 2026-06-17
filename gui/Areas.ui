@@ -27,11 +27,11 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
-QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 17px; border-radius: 12px; padding: 13px; border: none; }
+QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QPushButton#new_area_button { background-color: #2563C0; }
-QPushButton#update_area_button { background-color: #8a8e10; margin-bottom: 0px; }
-QPushButton#delete_area_button { background-color: #b03020; margin-bottom: 0px; }
+QPushButton#update_area_button { background-color: #8a8e10; margin-bottom: 0px; font-size: 13px; padding: 8px; }
+QPushButton#delete_area_button { background-color: #b03020; margin-bottom: 0px; font-size: 13px; padding: 8px; }
 QLabel#main_label { font-family: &quot;Roboto Flex&quot;; font-weight: 800; font-size: 26px; color: #124831; }
 QListWidget { background-color: #FFFFFF; border: 1.5px solid #c8ddc9; border-radius: 12px; font-size: 14px; padding: 4px; }
 QListWidget::item { padding: 10px 8px; border-bottom: 1px solid #e8f0e9; }
@@ -76,7 +76,7 @@ QListWidget::item:selected { background-color: #D6E6D4; color: #124831; border-r
    <item>
     <widget class="Line" name="line">
      <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>

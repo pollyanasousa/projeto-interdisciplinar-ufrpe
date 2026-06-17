@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
@@ -26,7 +26,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
+   <string>QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
 QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QLineEdit { border: 2px solid #D2813A; color: #1E1E1E; background-color: #FFFFFF; border-radius: 12px; font-size: 26px; font-weight: 700; padding: 10px 8px; }
@@ -50,7 +50,7 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
           <enum>Qt::TextFormat::AutoText</enum>
          </property>
          <property name="pixmap">
-          <pixmap>images/message-icon.png</pixmap>
+          <pixmap>gui/images/message-icon.png</pixmap>
          </property>
         </widget>
        </item>
@@ -104,7 +104,7 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>images/okay-icon.png</normaloff>images/okay-icon.png</iconset>
+         <normaloff>gui/images/okay-icon.png</normaloff>gui/images/okay-icon.png</iconset>
        </property>
       </widget>
      </item>

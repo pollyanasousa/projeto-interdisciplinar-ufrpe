@@ -1,8 +1,7 @@
 import json
 
 from utils.validators import *
-from utils.textprocessor import *
-from utils.language_parser import parse_date
+from utils.llm_normalizer import normalize_date
 
 class Expense:
     def __init__(self, expensefile):
@@ -68,7 +67,7 @@ class Expense:
         """
         It adds a new expense. Date is auto-normalized from natural language.
         """
-        date_norm, date_ok = parse_date(date)
+        date_norm, date_ok = normalize_date(date)
         if date_ok:
             date = date_norm
         self.list_of_expenses.append({"type": _type, "value": value, "date": date, "culture": culture})
@@ -85,7 +84,7 @@ class Expense:
             print("Número de identificação inválido!")
             return
 
-        date_norm, date_ok = parse_date(date)
+        date_norm, date_ok = normalize_date(date)
         if date_ok:
             date = date_norm
         self.list_of_expenses[_id]["type"] = _type

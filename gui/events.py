@@ -1,3 +1,28 @@
+"""
+events.py — VA3: Eventos que conectam a interface à lógica de voz.
+
+═══════════════════════════════════════════════════════════════════════════════
+VA3 — CAMADA DE CONEXÃO ENTRE INTERFACE E VOZ
+═══════════════════════════════════════════════════════════════════════════════
+
+FUNÇÃO:
+  Esta classe conecta os cliques em botões e eventos da interface gráfica
+  às funções de negócio. Na VA3, ela ganhou os eventos de navegação entre
+  telas e a integração com os diálogos de voz (plantio, colheita, gasto).
+
+FLUXO DE VOZ (como os eventos se encadeiam):
+  Botão "Novo plantio" → events.new_planting()
+    → dialog.planting_dialog() → PlantioDialog (voz)
+    → LLM interpreta → resultado volta para events
+    → model.planting.save() → salva no JSON
+
+ARQUIVOS RELACIONADOS:
+  - gui/dialog.py → diálogos com microfone (PlantioDialog, ColheitaDialog, etc.)
+  - utils/voice_input.py → captura e transcrição de áudio
+  - utils/llm_parser.py → interpretação semântica da fala
+  - utils/llm_normalizer.py → normalização de datas/medidas
+"""
+
 from gui.dialog import Dialog, CANCELLED
 from utils.validators import *
 from model.coowners import CoOwners
@@ -6,7 +31,7 @@ from model.coowners import CoOwners
 class Events:
     def __init__(self, window):
         self.window = window
-        self.dialog = Dialog()
+        self.dialog = Dialog(parent=window)
 
     # ── Cadastro — dados pessoais ──────────────────────────────────────────────
 
@@ -71,16 +96,14 @@ class Events:
             lw.addItem(area["name"])
 
     def signup_new_area(self):
-        data = self.dialog.form_dialog(
-            ["Nome da área (ex: roçado do fundo, terra perto do rio)"],
-            [is_valid_name]
-        )
-        if data is CANCELLED:
+        areas_existentes = [a["name"] for a in self.window.farmer.area.list_of_area]
+        nome = self.dialog.area_dialog(areas_existentes)
+        if nome is CANCELLED:
             return
-        if data is None:
+        if nome is None:
             self.dialog.error_dialog("Nome inválido! Use apenas letras e espaços.")
         else:
-            self.window.farmer.area.new_area(data[0])
+            self.window.farmer.area.new_area(nome)
             self.window.farmer.save()
             self._signup_refresh_areas()
 
@@ -89,18 +112,14 @@ class Events:
         if line < 0:
             self.dialog.error_dialog("Selecione uma área para editar.")
             return
-        atual = self.window.farmer.area.list_of_area[line]["name"]
-        data = self.dialog.form_dialog(
-            ["Nome da área"],
-            [is_valid_name],
-            prefill=[atual]
-        )
-        if data is CANCELLED:
+        areas_existentes = [a["name"] for a in self.window.farmer.area.list_of_area]
+        nome = self.dialog.area_dialog(areas_existentes)
+        if nome is CANCELLED:
             return
-        if data is None:
-            self.dialog.error_dialog("Nome inválido!")
+        if nome is None:
+            self.dialog.error_dialog("Nome inválido! Use apenas letras e espaços.")
         else:
-            self.window.farmer.area.update_area(line, data[0])
+            self.window.farmer.area.update_area(line, nome)
             self.window.farmer.save()
             self._signup_refresh_areas()
 
@@ -134,19 +153,7 @@ class Events:
             lw.addItem(f"{c['name']} | CPF: {c['cpf']} | {c['role']}{share}")
 
     def _coowner_form(self, prefill=None):
-        roles = CoOwners.ROLES
-        role_str = " / ".join(f"{i+1}.{r}" for i, r in enumerate(roles))
-        return self.dialog.form_dialog(
-            ["Nome completo",
-             "CPF (ex: 123.456.789-00)",
-             f"Vínculo ({role_str})",
-             "% de participação (opcional, ex: 50)"],
-            [is_valid_name,
-             is_valid_cpf,
-             lambda v: v.strip() in roles or (v.strip().isdigit() and 1 <= int(v.strip()) <= len(roles)),
-             lambda v: v == "" or (v.replace(".", "").replace(",", "").isdigit())],
-            prefill=prefill
-        )
+        return self.dialog.coowner_dialog(prefill=prefill)
 
     def signup_new_coowner(self):
         data = self._coowner_form()
@@ -245,7 +252,11 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(6)
 
     def new_expense(self):
-        cultures = list({p["culture"] for p in self.window.farmer.planting.list_of_planting})
+        plantios = self.window.farmer.planting.list_of_planting
+        if not plantios:
+            self.dialog.error_dialog("Cadastre pelo menos um plantio antes de registrar um gasto.")
+            return
+        cultures = list({p["culture"] for p in plantios})
         data = self.dialog.expense_dialog(cultures)
         if data is CANCELLED:
             return
@@ -295,16 +306,14 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(6)
 
     def new_area(self):
-        data = self.dialog.form_dialog(
-            ["Nome da área (ex: roçado do fundo, terra perto do rio)"],
-            [is_valid_name]
-        )
-        if data is CANCELLED:
+        areas_existentes = [a["name"] for a in self.window.farmer.area.list_of_area]
+        nome = self.dialog.area_dialog(areas_existentes)
+        if nome is CANCELLED:
             return
-        if data is None:
+        if nome is None:
             self.dialog.error_dialog("Erro ao adicionar área! Verifique os dados digitados.")
         else:
-            self.window.farmer.area.new_area(data[0])
+            self.window.farmer.area.new_area(nome)
             self.window.farmer.save()
             self.areas()
 
@@ -326,18 +335,14 @@ class Events:
         if line < 0:
             self.dialog.error_dialog("Selecione uma área para editar.")
             return
-        atual = self.window.farmer.area.list_of_area[line]["name"]
-        data = self.dialog.form_dialog(
-            ["Nome da área (ex: roçado do fundo, terra perto do rio)"],
-            [is_valid_name],
-            prefill=[atual]
-        )
-        if data is CANCELLED:
+        areas_existentes = [a["name"] for a in self.window.farmer.area.list_of_area]
+        nome = self.dialog.area_dialog(areas_existentes)
+        if nome is CANCELLED:
             return
-        if data is None:
+        if nome is None:
             self.dialog.error_dialog("Erro ao editar área! Verifique os dados digitados.")
         else:
-            self.window.farmer.area.update_area(line, data[0])
+            self.window.farmer.area.update_area(line, nome)
             self.window.farmer.save()
             self.areas()
 
@@ -412,11 +417,11 @@ class Events:
         self.window.stacked_widget.setCurrentIndex(6)
 
     def new_harvest(self):
-        cultures = list({p["culture"] for p in self.window.farmer.planting.list_of_planting})
-        if not cultures:
+        plantios = self.window.farmer.planting.list_of_planting
+        if not plantios:
             self.dialog.error_dialog("Cadastre pelo menos um plantio antes de registrar uma colheita.")
             return
-        data = self.dialog.harvest_dialog(cultures)
+        data = self.dialog.harvest_dialog(plantios)
         if data is CANCELLED:
             return
         if data is None:
@@ -442,11 +447,11 @@ class Events:
             self.dialog.error_dialog("Selecione uma colheita para editar.")
             return
         h = self.window.farmer.harvest.list_of_harvest[line]
-        cultures = list({p["culture"] for p in self.window.farmer.planting.list_of_planting})
-        if not cultures:
+        plantios = self.window.farmer.planting.list_of_planting
+        if not plantios:
             self.dialog.error_dialog("Nenhum plantio cadastrado para selecionar a cultura.")
             return
-        data = self.dialog.harvest_dialog(cultures, prefill=h)
+        data = self.dialog.harvest_dialog(plantios, prefill=h)
         if data is CANCELLED:
             return
         if data is None:
@@ -519,3 +524,86 @@ class Events:
 
     def process_coowners(self):
         self.window.stacked_widget.setCurrentIndex(6)
+    # ═══════════════════════════════════════════════════════════════════════════
+    # VA3 — RF011: REGISTRO POR VOZ (plantio, colheita, gasto)
+    # ═══════════════════════════════════════════════════════════════════════════
+    #
+    # FLUXO COMPLETO:
+    #   1. Agricultor clica em "Novo plantio/colheita/gasto"
+    #   2. → events.py chama dialog.planting_dialog() / harvest_dialog() / expense_dialog()
+    #   3. → dialog.py abre um QDialog com microfone (PlantioDialog/ColheitaDialog/GastoDialog)
+    #   4. → Agricultor FALA uma frase (ex: "plantei três sacos de milho no roçado ontem")
+    #   5. → VoiceThread (dialog.py) grava → VoiceInput (voice_input.py) transcreve com Whisper
+    #   6. → LLMParser (llm_parser.py) interpreta a fala → devolve JSON estruturado
+    #   7. → Campos do diálogo são preenchidos automaticamente
+    #   8. → Agricultor confirma ou corrige manualmente
+    #   9. → events.py salva no model → model salva no JSON
+    #
+    # DIFERENÇA DA VA2:
+    #   VA2: agricultor DIGITAVA em formulários com campos separados
+    #   VA3: agricultor FALA UMA FRASE e o LLM preenche TUDO automaticamente
+    #
+    # PRÓXIMO PASSO (futuro):
+    #   - Transformar todos os formulários em entrada por voz como método principal
+    #   - Digitação manual como fallback apenas
+
+    def new_planting_voice(self):
+        """
+        RF011 — Novo plantio por voz.
+        O agricultor fala: "plantei três sacos de milho no roçado ontem"
+        O LLM extrai cultura, quantidade, área e data automaticamente.
+        """
+        areas = [a["name"] for a in self.window.farmer.area.list_of_area]
+        if not areas:
+            self.dialog.error_dialog("Cadastre pelo menos uma área antes de registrar um plantio.")
+            return
+        data = self.dialog.voice_planting_dialog(areas)
+        if data is CANCELLED:
+            return
+        if data is None:
+            self.dialog.error_dialog("Erro ao adicionar plantio! Verifique os dados.")
+        else:
+            self.window.farmer.planting.new_planting(
+                data["culture"], data["area"], data["amount"], data["date"]
+            )
+            self.window.farmer.save()
+            self.planting()
+
+    def new_harvest_voice(self):
+        """
+        RF011 — Nova colheita por voz.
+        O agricultor fala: "colhi dez arrobas de feijão hoje"
+        """
+        cultures = list({p["culture"] for p in self.window.farmer.planting.list_of_planting})
+        if not cultures:
+            self.dialog.error_dialog("Cadastre pelo menos um plantio antes de registrar uma colheita.")
+            return
+        data = self.dialog.voice_harvest_dialog(cultures)
+        if data is CANCELLED:
+            return
+        if data is None:
+            self.dialog.error_dialog("Erro ao adicionar colheita! Verifique os dados.")
+        else:
+            self.window.farmer.harvest.new_harvest(
+                data["culture"], data["amount"], data["date"]
+            )
+            self.window.farmer.save()
+            self.harvest()
+
+    def new_expense_voice(self):
+        """
+        RF011 — Novo gasto por voz.
+        O agricultor fala: "gastei duzentos reais com adubo pro milho ontem"
+        """
+        cultures = list({p["culture"] for p in self.window.farmer.planting.list_of_planting})
+        data = self.dialog.voice_expense_dialog(cultures)
+        if data is CANCELLED:
+            return
+        if data is None:
+            self.dialog.error_dialog("Erro ao adicionar gasto! Verifique os dados.")
+        else:
+            self.window.farmer.expense.new_expense(
+                data["type"], data["value"], data["date"], data["culture"]
+            )
+            self.window.farmer.save()
+            self.expenses()

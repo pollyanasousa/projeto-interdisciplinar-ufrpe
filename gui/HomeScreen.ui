@@ -8,9 +8,9 @@
   <property name="windowTitle"><string>Form</string></property>
   <property name="styleSheet">
    <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
-QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 17px; border-radius: 14px; padding: 18px 8px; border: none; }
+QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
-QPushButton#coowners_button { background-color: #7C5A3C; font-size: 15px; padding: 14px; }
+QPushButton#coowners_button { background-color: #7C5A3C; font-size: 16px; padding: 14px; }
 QPushButton#coowners_button:hover { background-color: #5a3e28; }
 QLabel#welcome_label { font-weight: 800; font-size: 30px; color: #124831; }
 QLabel#presentation_label, QLabel#i_have_account_label { font-weight: 500; font-size: 14px; color: #7C5A3C; }</string>
@@ -20,8 +20,8 @@ QLabel#presentation_label, QLabel#i_have_account_label { font-weight: 500; font-
     <layout class="QVBoxLayout" name="verticalLayout">
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
       <widget class="QLabel" name="label">
-       <property name="minimumSize"><size><width>160</width><height>120</height></size></property>
-       <property name="maximumSize"><size><width>160</width><height>120</height></size></property>
+        <property name="minimumSize"><size><width>214</width><height>160</height></size></property>
+        <property name="maximumSize"><size><width>214</width><height>160</height></size></property>
        <property name="text"><string/></property>
        <property name="pixmap"><pixmap>images/logo.png</pixmap></property>
        <property name="scaledContents"><bool>true</bool></property>

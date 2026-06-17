@@ -1,97 +1,86 @@
 """
-This file contains validators used to guarantee the consistency of the input data on the program.
+validators.py — Validadores de dados do AgroBook.
+
+O QUE MUDOU NA VA3:
+Na VA2, esse arquivo tinha uma função is_valid_date() que usava regex
+para validar expressões de data como "ontem" ou "semana passada".
+
+Na VA3, essa função foi REMOVIDA porque o LLM (llm_normalizer.py) já
+converte qualquer expressão coloquial para o formato dd/mm/yyyy antes
+de salvar. Não faz sentido validar o que o próprio LLM já garantiu.
+
+O que ficou são só as validações que o LLM não faz:
+- CPF: precisa do algoritmo matemático da Receita Federal
+- Telefone: precisa de formato técnico específico
+- Nome e cidade: garante que não veio vazio
 """
 
-from datetime import datetime
-
 import re
-
-from utils.textprocessor import *
 from utils.states import list_of_states
-from utils.language_parser import parse_date
+
 
 def is_valid_phone(phone):
-	"""
-	It evaluates if the given phone is valid or not and returns True for valid and False for invalid.
-	"""
+    """
+    Verifica se o número de telefone está em um formato válido.
+    Aceita: (81) 99999-9999 ou 81999999999
+    """
+    pattern1 = r"^\(\d{2}\)\s*\d{5}-?\d{4}$"
+    pattern2 = r"^\d{7}-?\d{4}$"
+    return re.fullmatch(pattern1, phone) or re.fullmatch(pattern2, phone)
 
-	pattern1 = r"^\(\d{2}\)\s*\d{5}-?\d{4}$"
-	pattern2 = r"^\d{7}-?\d{4}$"
-
-	return re.fullmatch(pattern1, phone) or re.fullmatch(pattern2, phone)
 
 def is_valid_name(name, allow_numbers=False):
-	"""
-	It evaluates if the given name is valid or not and returns True for valid and False for invalid.
+    """
+    Verifica se o nome não está vazio e tem só letras e espaços.
 
-    The allow_numbers, if True, considers numbers as valid letters, and the opposite if False.
-	"""
+    allow_numbers=True é usado para campos de quantidade como '3 sacos'
+    ou '180.0 kg', que o LLM pode entregar com números e ponto.
+    """
+    if not name or not name.strip():
+        return False
+    if allow_numbers:
+        pattern = r"^[0-9a-zA-ZÁ-ÿ .,@]+$"
+    else:
+        pattern = r"^[a-zA-ZÁ-ÿ ]+$"
+    return bool(re.fullmatch(pattern, name.strip()))
 
-	pattern = r"^[a-zA-ZÁ-ÿ ]+$" if allow_numbers == False else r"^[0-9a-zA-ZÁ-ÿ ]+$"
-
-	return re.fullmatch(pattern, name)
 
 def is_valid_cpf(cpf):
-	"""
-	It evaluates if the given CPF is valid or not and returns True for valid and False for invalid.
-	"""
+    """
+    Valida o CPF usando o algoritmo real da Receita Federal.
 
-	pattern = r"^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$"
+    Mantido na VA3 mesmo com entrada por voz, porque o CPF precisa ser
+    matematicamente correto — não basta o LLM transcrever os números.
+    O agricultor pode falar um dígito errado sem perceber.
+    """
+    cpf = re.sub(r"\D", "", cpf)  # remove pontos e traços se tiver
+    if len(cpf) != 11:
+        return False
 
-	if re.fullmatch(pattern, cpf):
-		# Testing the so called "dígitos verificadores":
-		cpf = re.sub(r'\D', '', cpf)
+    # Calcula o primeiro dígito verificador
+    soma = 0
+    for i, peso in enumerate(range(10, 1, -1)):
+        soma += int(cpf[i]) * peso
+    resto = (soma * 10) % 11
+    primeiro_digito = resto if resto < 10 else 0
 
-		_sum = 0
-		for i, weight in enumerate(range(10, 1, -1)):
-			_sum += int(cpf[i]) * weight
+    # Calcula o segundo dígito verificador
+    soma = 0
+    for i, peso in enumerate(range(11, 1, -1)):
+        soma += int(cpf[i]) * peso
+    resto = (soma * 10) % 11
+    segundo_digito = resto if resto < 10 else 0
 
-		remainder = (_sum * 10) % 11
-		first_digit = remainder if remainder < 10 else 0
+    return primeiro_digito == int(cpf[-2]) and segundo_digito == int(cpf[-1])
 
-		_sum = 0
-		for i, weight in enumerate(range(11, 1, -1)):
-			_sum += int(cpf[i]) * weight
-
-		remainder = (_sum * 10) % 11
-		second_digit = remainder if remainder < 10 else 0
-
-		return first_digit == int(cpf[-2]) and second_digit == int(cpf[-1])
-
-	else:
-		return False
 
 def is_valid_town(town):
-	"""
-	It evaluates if the given town is valid or not and returns True for valid and False for invalid.
-	"""
+    """Verifica se a cidade não está vazia e tem só letras e espaços."""
+    if not town or not town.strip():
+        return False
+    return bool(re.fullmatch(r"^[a-zA-ZÁ-ÿ ]+$", town.strip()))
 
-	pattern = r"^[a-zA-ZÁ-ÿ ]+$"
-
-	return re.fullmatch(pattern, town)
 
 def is_valid_state(state):
-	"""
-	It evaluates if the given state is valid or not and returns True for valid and False for invalid.
-	"""
-
-	return state in list_of_states
-
-def is_valid_date(date):
-	"""
-	Aceita datas em formato dd/mm/yyyy OU em linguagem natural do agricultor
-	(ex: hoje, ontem, semana passada, ha 3 dias, etc).
-	Retorna True se válido, False caso contrário.
-	"""
-	# Tenta formato padrão
-	pattern = r"^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{4}$"
-	if re.fullmatch(pattern, date.strip()):
-		try:
-			datetime.strptime(date.strip(), "%d/%m/%Y")
-			return True
-		except ValueError:
-			return False
-	# Tenta linguagem natural
-	_, ok = parse_date(date)
-	return ok
-
+    """Verifica se o estado está na lista oficial de estados brasileiros."""
+    return state in list_of_states

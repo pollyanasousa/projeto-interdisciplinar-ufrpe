@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
@@ -26,7 +26,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
+   <string>QWidget { background-color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; }
 QPushButton { background-color: #124831; color: #E9F2EA; font-family: &quot;Roboto Flex&quot;; font-weight: 700; font-size: 18px; border-radius: 12px; padding: 14px; border: none; }
 QPushButton:hover { background-color: #0a3020; }
 QLineEdit { border: 2px solid #D2813A; color: #1E1E1E; background-color: #FFFFFF; border-radius: 12px; font-size: 18px; padding: 10px 14px; }
@@ -41,25 +41,22 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
-       <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-        <widget class="QLabel" name="phone_logo">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::TextFormat::AutoText</enum>
-         </property>
-         <property name="pixmap">
-          <pixmap>images/phone-icon.png</pixmap>
-         </property>
-        </widget>
-       </item>
+        <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
+         <widget class="QLabel" name="phone_logo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap>gui/images/phone-icon.png</pixmap>
+          </property>
+         </widget>
+        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
@@ -84,7 +81,7 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Vamos mandar um código pra confirmar que é você</string>
+            <string>Vamos mandar um código pra confirmar que é você</string>
            </property>
           </widget>
          </item>
@@ -92,21 +89,38 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
        </item>
       </layout>
      </item>
-     <item alignment="Qt::AlignmentFlag::AlignHCenter">
-      <widget class="QLabel" name="phone_number_label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Número do celular</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="phone_lineedit">
+      <item>
+       <layout class="QHBoxLayout" name="phone_label_row">
+        <item>
+         <widget class="QLabel" name="phone_number_label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Número do celular</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="phone_label_spacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>200</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="phone_lineedit">
        <property name="placeholderText">
         <string>(81)9999-0000</string>
        </property>
@@ -117,10 +131,10 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
        <property name="text">
         <string>→ Receber código</string>
        </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../.designer/backup/images/leaves-icon.png</normaloff>../../.designer/backup/images/leaves-icon.png</iconset>
-       </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>gui/images/leaves-icon.png</normaloff>gui/images/leaves-icon.png</iconset>
+        </property>
       </widget>
      </item>
      <item alignment="Qt::AlignmentFlag::AlignHCenter">
@@ -141,7 +155,7 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
         <enum>Qt::LayoutDirection::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>Só você recebe o código. Não &lt;br /&gt;compartilhe com ninguém.</string>
+        <string>Só você recebe o código. Não <br />compartilhe com ninguém.</string>
        </property>
        <property name="textFormat">
         <enum>Qt::TextFormat::AutoText</enum>
@@ -161,3 +175,4 @@ QLabel#message_label { font-size: 13px; color: #124831; background-color: #D6E6D
  <resources/>
  <connections/>
 </ui>
+
