@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="doc/banner-agrobook.jpeg" alt="AgroBook Banner" width="600"/>
+<img src="doc/print-tel.png" alt="AgroBook Tela Inicial" width="600"/>
 
 <br/><br/>
 

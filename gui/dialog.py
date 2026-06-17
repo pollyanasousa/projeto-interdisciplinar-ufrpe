@@ -1090,7 +1090,7 @@ class CoOwnerDialog(QDialog):
 # ── Classe Dialog (mantém compatibilidade com events.py) ─────────────────────
 
 class Dialog:
-    def __init__(self):
+    def __init__(self, parent=None):
         pass
 
     def error_dialog(self, message):
